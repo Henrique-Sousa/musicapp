@@ -18,6 +18,7 @@ public class UserController {
 
     public UserController() {
         User joao, maria;
+
         joao = new User();
         maria = new User();
 
@@ -38,7 +39,7 @@ public class UserController {
 
     @DeleteMapping()
     public void delete() {
-        users.removeFirst();
+        users.removeIf(user -> user.id == "2");
     }
 
 }

@@ -42,9 +42,10 @@ public class UserController {
     }
 
     @PostMapping
-    public void create(@RequestBody User user) {
-        // TODO: verificar se ja nao existe usuario com esse id
-        users.add(user);
+    public void create(@RequestBody User newUser) {
+        if (! users.stream().anyMatch(user -> user.id.equals(newUser.id))) {
+            users.add(newUser);
+        }
     }
 
     @PutMapping

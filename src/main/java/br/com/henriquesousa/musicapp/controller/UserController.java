@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,9 +58,14 @@ public class UserController {
         });
     }
 
-    @DeleteMapping()
-    public void delete(@RequestParam String id) {
+    @DeleteMapping("/id/{id}")
+    public void delete(@PathVariable("id") String id) {
         users.removeIf(user -> user.id.equals(id));
     }
+
+    // @DeleteMapping()
+    // public void delete(@RequestParam String id) {
+    //     users.removeIf(user -> user.id.equals(id));
+    // }
 
 }

@@ -5,6 +5,9 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,9 +40,24 @@ public class UserController {
         return users;
     }
 
+    @PostMapping
+    public void create(@RequestBody User user) {
+        // TODO: verificar se ja nao existe usuario com esse id
+        users.add(user);
+    }
+
+    @PutMapping
+    public void update(@RequestBody User updatedUser) {
+        users.forEach(user -> {
+            if (user.id.equals(updatedUser.id)) {
+                user.name = updatedUser.name;
+            }
+        });
+    }
+
     @DeleteMapping()
-    public void delete() {
-        users.removeIf(user -> user.id == "2");
+    public void delete(String id) {
+        users.removeIf(user -> user.id.equals(id));
     }
 
 }

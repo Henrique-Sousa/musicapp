@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.henriquesousa.musicapp.entity.User;
@@ -56,7 +57,7 @@ public class UserController {
     }
 
     @DeleteMapping()
-    public void delete(String id) {
+    public void delete(@RequestParam String id) {
         users.removeIf(user -> user.id.equals(id));
     }
 

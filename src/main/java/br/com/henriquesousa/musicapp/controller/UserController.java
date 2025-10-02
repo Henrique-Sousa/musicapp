@@ -1,8 +1,9 @@
 package br.com.henriquesousa.musicapp.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,77 +12,56 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.henriquesousa.musicapp.entity.User;
+import br.com.henriquesousa.musicapp.service.UserService;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
 
-    private List<User> users = new ArrayList<>(); 
-
-    public UserController() {
-        User joao, maria;
-
-        joao = new User();
-        maria = new User();
-
-        joao.name = "Joao";
-        joao.id = "1";
-
-        maria.name = "Maria";
-        maria.id = "2";
-        
-        users.add(joao);
-        users.add(maria);
-    }
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/list")
     public ResponseEntity<List<User>> list() {
-        return ResponseEntity.ok(users);
+        return ResponseEntity.ok(userService.list());
     }
 
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User newUser) {
-        if (users.stream().anyMatch(user -> user.id.equals(newUser.id))) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        Optional<User> userCreated = userService.create(newUser);
+        // TODO: ta retornando 500 server error quando ja existe o usuario
+        if (userCreated.isPresent()) {
+            return ResponseEntity.ok(userCreated.get());
         } else {
-            users.add(newUser);
-            return ResponseEntity.ok(newUser);
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
     }
 
     @PutMapping
-    // public ResponseEntity<User> update(@RequestBody User updatedUser) {
-    public void update(@RequestBody User updatedUser) {
-        // boolean inserted;
-        users.forEach(user -> {
-            if (user.id.equals(updatedUser.id)) {
-                user.name = updatedUser.name;
-                // inserted = true;
-            } else {
-                // inserted = false;
-            }
-        });
-        // if (inserted) {
-        //         return ResponseEntity.ok(updatedUser);
-        // } else {
-        //         return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        // }
+    public ResponseEntity<User> update(@RequestBody User updatedUser) {
+        Optional<User> userUpdated = userService.update(updatedUser);
+        if (userUpdated.isPresent()) {
+            User user = userUpdated.get();
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
-    @DeleteMapping("/id/{id}")
+    @DeleteMapping("/{id}")
     // TODO: se nao tiver um usuario com esse id, retornar NOT FOUND
-    public void delete(@PathVariable("id") String id) {
-        users.removeIf(user -> user.id.equals(id));
+    // Long ou long?
+    public ResponseEntity<User> delete(@PathVariable("id") long id) {
+        Optional<User> userDeleted = userService.delete(id);
+        if (userDeleted.isPresent()) {
+            User user = userDeleted.get();
+            return ResponseEntity.ok(user);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
-
-    // @DeleteMapping()
-    // public void delete(@RequestParam String id) {
-    //     users.removeIf(user -> user.id.equals(id));
-    // }
-
 }

@@ -15,14 +15,8 @@ public class UserService {
 
     public UserService() {
 
-        User joao = new User();
-        User maria = new User();
-
-        joao.setName("Joao");
-        joao.setId(1);
-
-        maria.setName( "Maria");
-        maria.setId(2);
+        User joao = new User(1, "Joao");
+        User maria = new User(2, "Maria");
 
         users.add(joao);
         users.add(maria);

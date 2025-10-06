@@ -33,7 +33,6 @@ public class UserController {
     @PostMapping
     public ResponseEntity<User> create(@RequestBody User newUser) {
         Optional<User> userCreated = userService.create(newUser);
-        // TODO: ta retornando 500 server error quando ja existe o usuario
         if (userCreated.isPresent()) {
             return ResponseEntity.ok(userCreated.get());
         } else {
@@ -53,8 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    // TODO: se nao tiver um usuario com esse id, retornar NOT FOUND
-    // Long ou long?
+    // TODO: Long ou long?
     public ResponseEntity<User> delete(@PathVariable("id") long id) {
         Optional<User> userDeleted = userService.delete(id);
         if (userDeleted.isPresent()) {

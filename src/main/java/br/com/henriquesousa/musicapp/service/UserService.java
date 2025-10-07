@@ -58,7 +58,7 @@ public class UserService {
     //     }
     // }
     
-    public Optional<User> delete(long id) {
+    public Optional<User> delete(Long id) {
         // TODO: extrair essa funcao que tambem eh usada em update?
         Optional<User> userDeleted = users.stream()
             .filter(user -> user.getId() == id)

@@ -33,7 +33,8 @@ public class UserService {
 
     public Optional<User> create(User newUser) {
         // TODO: testar se existe um mesmo usuario pelo cpf ou email
-        // TODO: criar findByName e findByUserName
+        // TODO: criar findByName e findByUserName e testar se existe usuario
+        // por username, no lugar de cpf e email
         if (userRepository.findByName(newUser.getName()).isEmpty()) {
             userRepository.saveAndFlush(newUser);
             return Optional.of(newUser);
@@ -52,7 +53,6 @@ public class UserService {
     }
 
     public Optional<User> delete(Long id) {
-        // TODO: extrair essa funcao que tambem eh usada em update?
         Optional<User> user = userRepository.findById(id);
         if (user.isPresent()) {
             userRepository.deleteById(id);

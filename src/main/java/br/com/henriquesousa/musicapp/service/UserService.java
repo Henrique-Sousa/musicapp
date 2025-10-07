@@ -15,8 +15,8 @@ public class UserService {
 
     public UserService() {
 
-        User joao = new User(1, "Joao");
-        User maria = new User(2, "Maria");
+        User joao = new User(1l, "Joao");
+        User maria = new User(2l, "Maria");
 
         users.add(joao);
         users.add(maria);

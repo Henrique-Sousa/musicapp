@@ -52,8 +52,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    // TODO: Long ou long?
-    public ResponseEntity<User> delete(@PathVariable("id") long id) {
+    public ResponseEntity<User> delete(@PathVariable("id") Long id) {
         Optional<User> userDeleted = userService.delete(id);
         if (userDeleted.isPresent()) {
             User user = userDeleted.get();

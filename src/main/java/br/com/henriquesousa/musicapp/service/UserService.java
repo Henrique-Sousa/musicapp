@@ -32,6 +32,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    // TODO: fazer try/catch no lugar de if's?
+
     public Optional<User> create(User newUser) {
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
             // TODO: usar @Valid?

@@ -13,18 +13,19 @@ import br.com.henriquesousa.musicapp.repository.UserRepository;
 @Service
 public class UserService {
 
-    private List<User> users = new ArrayList<>(); 
+    // TODO: remover essa lista e as instancias e .add's abaixo
+    // private List<User> users = new ArrayList<>(); 
 
     @Autowired
     private UserRepository userRepository = null;
 
     public UserService() {
 
-        User joao = new User(1l, "Joao");
-        User maria = new User(2l, "Maria");
+        // User joao = new User(1l, "Joao");
+        // User maria = new User(2l, "Maria");
 
-        users.add(joao);
-        users.add(maria);
+        // users.add(joao);
+        // users.add(maria);
     }
 
     public List<User> list() {
@@ -32,18 +33,29 @@ public class UserService {
     }
 
     public Optional<User> create(User newUser) {
-        // TODO: testar se existe um mesmo usuario pelo cpf ou email
-        // TODO: criar findByName e findByUserName e testar se existe usuario
-        // por username, no lugar de cpf e email
-        if (userRepository.findByName(newUser.getName()).isEmpty()) {
-            userRepository.saveAndFlush(newUser);
-            return Optional.of(newUser);
+        if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
+            // TODO: usar @Valid?
+            // TODO: refatorar - testar primeiro se ja NAO existe o usuario
+            // AND se o json NAO tem os fields corretos
+            // e caso algum desses de fato falhe, retornar .empty
+            // depois, fora do if, salvar e retornar usuario
+            
+            if (newUser.getUserName() != null) {
+                userRepository.saveAndFlush(newUser);
+                return Optional.of(newUser);
+            }
+            // TODO: no momento, se o json nao tiver os campos corretos,
+            // retorna empty o que faz com que o controller retorne CONFLICT
+            // mas sera que eh o melhor status code pra isso?
+            return Optional.empty();
         }
         return Optional.empty();
     }
 
     public Optional<User> update(User updatedUser) {
+        // TODO: achar o usuario por user_name no lugar de por id
         Optional<User> user = userRepository.findById(updatedUser.getId());
+        // TODO: permitir que se mude o user_name? talvez seja melhor nao
         if (user.isPresent()) {
             user.get().setName(updatedUser.getName());
             userRepository.saveAndFlush(user.get()); 

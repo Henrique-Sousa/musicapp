@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import br.com.henriquesousa.musicapp.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query(value = "select * from \"user\" where name = :name", nativeQuery = true)
-    List<User> findByName(String name);
+    @Query(value = "select * from \"user\" where user_name = :userName", nativeQuery = true)
+    List<User> findByUserName(String userName);
 }

@@ -27,9 +27,11 @@ public class User {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
+    // TODO: precisa de getter/setter?
     @Column
     private Date createdAt;
 
+    // TODO: precisa de getter/setter?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Collection<UserCard> deck = new ArrayList<>();
 

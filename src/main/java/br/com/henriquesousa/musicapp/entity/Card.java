@@ -26,6 +26,7 @@ public class Card {
     @Column
     private String answer;
 
+    // TODO: precisa de getter/setter?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
     private Collection<UserCard> deck = new ArrayList<>();
 

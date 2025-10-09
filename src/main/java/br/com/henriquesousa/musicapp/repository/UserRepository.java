@@ -9,6 +9,6 @@ import br.com.henriquesousa.musicapp.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
     @Query(value = "select * from \"user\" where user_name = :userName", nativeQuery = true)
-    // collection?
+    // TODO: List -> Collection?
     List<User> findByUserName(String userName);
 }

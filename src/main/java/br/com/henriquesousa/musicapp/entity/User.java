@@ -27,7 +27,7 @@ public class User {
     private String userName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private Collection<Answer> answers = new ArrayList<>();
+    private Collection<Review> reviews = new ArrayList<>();
 
     public User() {}
 

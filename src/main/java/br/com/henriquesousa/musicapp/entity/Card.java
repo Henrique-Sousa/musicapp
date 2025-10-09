@@ -23,7 +23,7 @@ public class Card {
     private String answer;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
-    private Collection<Answer> answers = new ArrayList<>();
+    private Collection<Review> reviews = new ArrayList<>();
 
     public long getId() {
         return id;

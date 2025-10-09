@@ -1,5 +1,6 @@
 package br.com.henriquesousa.musicapp.entity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -26,8 +27,11 @@ public class User {
     @Column(name = "user_name", nullable = false)
     private String userName;
 
+    @Column
+    private Date createdAt;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private Collection<Review> reviews = new ArrayList<>();
+    private Collection<UserCard> deck = new ArrayList<>();
 
     public User() {}
 

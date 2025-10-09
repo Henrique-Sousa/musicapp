@@ -3,6 +3,7 @@ package br.com.henriquesousa.musicapp.entity;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
@@ -19,11 +20,14 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
+    @Column
     private String question;
+
+    @Column
     private String answer;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
-    private Collection<Review> reviews = new ArrayList<>();
+    private Collection<UserCard> deck = new ArrayList<>();
 
     public long getId() {
         return id;

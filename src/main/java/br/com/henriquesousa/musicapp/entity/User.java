@@ -37,6 +37,7 @@ public class User {
 
     public User() {}
 
+    // TODO: precisa desse constructor mesmo?
     public User(Long id, String name, String userName) {
         this.id = id;
         this.name = name;

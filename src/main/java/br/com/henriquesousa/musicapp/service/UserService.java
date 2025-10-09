@@ -1,6 +1,5 @@
 package br.com.henriquesousa.musicapp.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

@@ -42,6 +42,8 @@ public class UserService {
             // e caso algum desses de fato falhe, retornar .empty
             // depois, fora do if, salvar e retornar usuario
             
+            // TODO: testar se tem name
+            
             if (newUser.getUserName() != null) {
                 userRepository.saveAndFlush(newUser);
                 return Optional.of(newUser);

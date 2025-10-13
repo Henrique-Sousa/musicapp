@@ -28,6 +28,7 @@ public class User {
     private String userName;
 
     // TODO: precisa de getter/setter?
+    // TODO: nao esta criando a data automaticamente
     @Column
     private Date createdAt;
 
@@ -35,15 +36,7 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private Collection<UserCard> deck = new ArrayList<>();
 
-    public User() {}
-
-    // TODO: precisa desse constructor mesmo?
-    public User(Long id, String name, String userName) {
-        this.id = id;
-        this.name = name;
-        this.userName = userName;
-    }
-
+    // TODO: o lombok nao gera getters/setters automaticamente?
     public Long getId() {
         return id;
     }

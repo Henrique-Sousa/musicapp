@@ -12,20 +12,8 @@ import br.com.henriquesousa.musicapp.repository.UserRepository;
 @Service
 public class UserService {
 
-    // TODO: remover essa lista e as instancias e .add's abaixo
-    // private List<User> users = new ArrayList<>(); 
-
     @Autowired
     private UserRepository userRepository = null;
-
-    public UserService() {
-
-        // User joao = new User(1l, "Joao");
-        // User maria = new User(2l, "Maria");
-
-        // users.add(joao);
-        // users.add(maria);
-    }
 
     public List<User> list() {
         return userRepository.findAll();

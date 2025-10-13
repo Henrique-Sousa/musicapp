@@ -54,10 +54,10 @@ public class UserService {
         return Optional.empty();
     }
 
-    public Optional<User> delete(Long id) {
-        Optional<User> user = userRepository.findById(id);
+    public Optional<User> delete(String userName) {
+        Optional<User> user = userRepository.findByUserName(userName);
         if (user.isPresent()) {
-            userRepository.deleteById(id);
+            userRepository.deleteByUserName(userName);
             return user;
         }
         return Optional.empty();

@@ -2,7 +2,7 @@ package br.com.henriquesousa.musicapp.entity;
 
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +34,7 @@ public class User {
 
     // TODO: precisa de getter/setter?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private Collection<UserCard> deck = new ArrayList<>();
+    private List<UserCard> deck = new ArrayList<>();
 
     // TODO: o lombok nao gera getters/setters automaticamente?
     public Long getId() {

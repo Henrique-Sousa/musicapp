@@ -1,7 +1,7 @@
 package br.com.henriquesousa.musicapp.entity;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -28,7 +28,7 @@ public class Card {
 
     // TODO: precisa de getter/setter?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
-    private Collection<UserCard> deck = new ArrayList<>();
+    private List<UserCard> deck = new ArrayList<>();
 
     public long getId() {
         return id;

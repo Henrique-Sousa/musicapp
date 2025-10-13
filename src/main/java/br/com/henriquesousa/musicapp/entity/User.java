@@ -24,7 +24,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "user_name", nullable = false)
+    @Column(name = "user_name", nullable = false, unique = true)
     private String userName;
 
     // TODO: precisa de getter/setter?

@@ -44,8 +44,7 @@ public class UserService {
     }
 
     public Optional<User> update(User updatedUser) {
-        // TODO: achar o usuario por user_name no lugar de por id
-        Optional<User> user = userRepository.findById(updatedUser.getId());
+        Optional<User> user = userRepository.findByUserName(updatedUser.getUserName());
         // TODO: permitir que se mude o user_name? talvez seja melhor nao
         if (user.isPresent()) {
             user.get().setName(updatedUser.getName());

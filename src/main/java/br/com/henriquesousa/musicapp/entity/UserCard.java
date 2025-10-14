@@ -21,7 +21,7 @@ public class UserCard {
     private long id;
 
     @ManyToOne(fetch = FetchType.LAZY) // para quando eu puxar uma resposta ele nao puxar os cards
-    private User user;
+    private User user;                 // ele cria automaticamente o field user_id no banco de dados
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Card card;

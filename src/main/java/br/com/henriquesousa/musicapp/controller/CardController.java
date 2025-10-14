@@ -12,13 +12,13 @@ import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.service.CardService;
 
 @RestController
-@RequestMapping("/card")
+@RequestMapping("/cards")
 public class CardController {
 
     @Autowired
     private CardService cardService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<Card>> list() {
         return ResponseEntity.ok(cardService.list());
     }

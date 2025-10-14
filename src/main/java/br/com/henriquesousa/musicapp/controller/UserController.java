@@ -19,13 +19,13 @@ import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.service.UserService;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/list")
+    @GetMapping
     public ResponseEntity<List<User>> list() {
         return ResponseEntity.ok(userService.list());
     }
@@ -40,6 +40,7 @@ public class UserController {
         }
     }
 
+    // TODO: colocar userName como path parameter? (PUT users/userName)
     @PutMapping
     public ResponseEntity<User> update(@RequestBody User updatedUser) {
         Optional<User> userUpdated = userService.update(updatedUser);

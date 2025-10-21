@@ -25,6 +25,7 @@ public class UserCardService {
         // TODO: testar se já tem um usercard com esse usuario e esse card
         newUserCard.setUuid(UUID.randomUUID());
         newUserCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        // TODO: devo usar mais try-catch no lugar de if-else?
         try {
             userCardRepository.saveAndFlush(newUserCard);
             return Optional.of(newUserCard);

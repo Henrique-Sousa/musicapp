@@ -1,7 +1,8 @@
 // nao precisa de repositorio
 package br.com.henriquesousa.musicapp.entity;
 
-import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.UUID;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -18,7 +19,10 @@ public class UserCard {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY) // para quando eu puxar uma resposta ele nao puxar os cards
     private User user;                 // ele cria automaticamente o field user_id no banco de dados
@@ -31,13 +35,13 @@ public class UserCard {
 
     // TODO: precisa de getter/setter?
     @Column
-    private Date createdAt;
+    private Timestamp createdAt;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
  
@@ -57,11 +61,11 @@ public class UserCard {
         this.card = card;
     }
 
-    public Date getCreatedAt() {
+    public Timestamp getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(Timestamp createdAt) {
         this.createdAt = createdAt;
     }
 
@@ -71,5 +75,13 @@ public class UserCard {
 
     public void setBox(int box) {
         this.box = box;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 }

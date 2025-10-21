@@ -18,6 +18,7 @@ public class CardController {
     @Autowired
     private CardService cardService;
 
+    // TODO: criar CardDTO para retornar sem o id?
     @GetMapping
     public ResponseEntity<List<Card>> list() {
         return ResponseEntity.ok(cardService.list());

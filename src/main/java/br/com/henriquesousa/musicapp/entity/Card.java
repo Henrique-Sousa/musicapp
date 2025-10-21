@@ -2,6 +2,7 @@ package br.com.henriquesousa.musicapp.entity;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -21,7 +22,7 @@ public class Card {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
+    private Long id;
 
     @Column
     private String question;
@@ -29,15 +30,14 @@ public class Card {
     @Column
     private String answer;
 
-    // TODO: precisa de getter/setter?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
     private List<UserCard> deck = new ArrayList<>();
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
     
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -55,5 +55,13 @@ public class Card {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public List<UserCard> getDeck() {
+        return deck;
+    }
+
+    public void setDeck(List<UserCard> deck) {
+        this.deck = deck;
     }
 }

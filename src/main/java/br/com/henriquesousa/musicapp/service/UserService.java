@@ -1,7 +1,9 @@
 package br.com.henriquesousa.musicapp.service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +34,8 @@ public class UserService {
             // TODO: testar se tem name
             
             if (newUser.getUserName() != null) {
+                newUser.setUuid(UUID.randomUUID());
+                newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
                 userRepository.saveAndFlush(newUser);
                 return Optional.of(newUser);
             }
@@ -46,6 +50,7 @@ public class UserService {
     public Optional<User> update(User updatedUser) {
         Optional<User> user = userRepository.findByUserName(updatedUser.getUserName());
         // TODO: permitir que se mude o user_name? talvez seja melhor nao
+        // TODO: criar updatedAt?
         if (user.isPresent()) {
             user.get().setName(updatedUser.getName());
             userRepository.saveAndFlush(user.get()); 

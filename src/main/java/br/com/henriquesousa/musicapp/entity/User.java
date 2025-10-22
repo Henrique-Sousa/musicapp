@@ -39,6 +39,7 @@ public class User {
     @JsonIgnore
     private Timestamp createdAt;
 
+    //TODO: precisa de new aqui?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserCard> deck = new ArrayList<>();
 

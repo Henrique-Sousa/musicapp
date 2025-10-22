@@ -60,10 +60,10 @@ public class UserService {
     }
 
     public Optional<User> delete(String userName) {
-        Optional<User> user = userRepository.findByUserName(userName);
-        if (user.isPresent()) {
+        Optional<User> maybeUser = userRepository.findByUserName(userName);
+        if (maybeUser.isPresent()) {
             userRepository.deleteByUserName(userName);
-            return user;
+            return maybeUser;
         }
         return Optional.empty();
     }

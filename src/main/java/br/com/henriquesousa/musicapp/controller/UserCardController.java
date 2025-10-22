@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.henriquesousa.musicapp.dto.UserCardDTO;
+import br.com.henriquesousa.musicapp.dto.UserCardRequestDTO;
 import br.com.henriquesousa.musicapp.dto.UserCardResponseDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.entity.User;
@@ -30,66 +30,66 @@ public class UserCardController {
     private UserCardService userCardService;
 
     @Autowired
-    UserRepository userRepository = null;  
+    private UserRepository userRepository;  
 
     @Autowired
-    CardRepository cardRepository = null;  
+    private CardRepository cardRepository;  
 
     @GetMapping
     public ResponseEntity<List<UserCardResponseDTO>> list() {
         List<UserCard> userCards = userCardService.list();
-        List<UserCardResponseDTO> responseList = new ArrayList<>();
+        List<UserCardResponseDTO> userCardResponses = new ArrayList<>();
         for (var userCard : userCards) {
-            UserCardResponseDTO responseUserCard = new UserCardResponseDTO(
+            UserCardResponseDTO userCardResponse = new UserCardResponseDTO(
                     userCard.getUuid(),
                     userCard.getUser().getUuid(),
                     userCard.getCard().getId(),
                     userCard.getBox()
                     );
-            responseList.add(responseUserCard);
+            userCardResponses.add(userCardResponse);
         }
-        return ResponseEntity.ok(responseList);
+        return ResponseEntity.ok(userCardResponses);
     }
 
     @PostMapping
-    public ResponseEntity<UserCardResponseDTO> create(@RequestBody UserCardDTO newUserCard) {
+    public ResponseEntity<UserCardResponseDTO> create(@RequestBody UserCardRequestDTO newUserCardRequest) {
         // TODO: precisa mesmo criar tudo isso? o jackson fazia isso automaticamente
 
         UserCard userCard = new UserCard();
 
-        Optional<User> optionalUser = userRepository.findByUuid(newUserCard.getUserUuid());
-        Optional<Card> optionalCard = cardRepository.findById(newUserCard.getCardId());
+        Optional<User> maybeUser = userRepository.findByUuid(newUserCardRequest.getUserUuid());
+        Optional<Card> maybeCard = cardRepository.findById(newUserCardRequest.getCardId());
 
         User user = null;
         Card card = null;
 
-        if (optionalUser.isPresent()) {
-            user = optionalUser.get();
+        if (maybeUser.isPresent()) {
+            user = maybeUser.get();
         } else {
             // TODO: retornar usuario nao achado
         }
 
-        if (optionalCard.isPresent()) {
-            card = optionalCard.get();
+        if (maybeCard.isPresent()) {
+            card = maybeCard.get();
         } else {
             // TODO: retornar card nao achado
         }
 
         userCard.setUser(user);
         userCard.setCard(card); 
-        userCard.setBox(newUserCard.getBox());
+        userCard.setBox(newUserCardRequest.getBox());
 
-        Optional<UserCard> optionalUserCardCreated = userCardService.create(userCard);
+        Optional<UserCard> maybeSavedUserCard = userCardService.create(userCard);
 
-        if (optionalUserCardCreated.isPresent()) {
-            UserCard userCardCreated = optionalUserCardCreated.get(); 
-            UserCardResponseDTO response = new UserCardResponseDTO(
-                    userCardCreated.getUuid(),
+        if (maybeSavedUserCard.isPresent()) {
+            UserCard savedUserCard = maybeSavedUserCard.get(); 
+            UserCardResponseDTO userResponse = new UserCardResponseDTO(
+                    savedUserCard.getUuid(),
                     user.getUuid(),
                     card.getId(),
-                    userCardCreated.getBox()
+                    savedUserCard.getBox()
                     );
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }

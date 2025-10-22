@@ -1,4 +1,3 @@
-// nao precisa de repositorio
 package br.com.henriquesousa.musicapp.entity;
 
 import java.sql.Timestamp;
@@ -33,7 +32,6 @@ public class UserCard {
     @Column
     private int box;
 
-    // TODO: precisa de getter/setter?
     @Column
     private Timestamp createdAt;
 

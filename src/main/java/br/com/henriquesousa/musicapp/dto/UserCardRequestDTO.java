@@ -1,13 +1,16 @@
 package br.com.henriquesousa.musicapp.dto;
 
+import java.util.UUID;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Data // cria getters e setters
-public class UserDTO {
-    private String name;
-    private String userName;
+@Data
+public class UserCardRequestDTO {
+    private UUID userUuid;
+    private Long cardId;
+    private int box;
 }

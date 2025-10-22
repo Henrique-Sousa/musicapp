@@ -43,7 +43,6 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserCard> deck = new ArrayList<>();
 
-    // TODO: o lombok nao gera getters/setters automaticamente?
     public Long getId() {
         return id;
     }

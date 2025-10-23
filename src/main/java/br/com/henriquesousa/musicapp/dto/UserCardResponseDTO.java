@@ -12,6 +12,6 @@ import lombok.NoArgsConstructor;
 public class UserCardResponseDTO {
     private UUID uuid;
     private UUID userUuid;
-    private Long cardId;
+    private UUID cardUuid;
     private int box;
 }

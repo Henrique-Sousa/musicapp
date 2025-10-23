@@ -36,7 +36,7 @@ public class User {
     private String userName;
 
     @Column
-    @JsonIgnore
+    @JsonIgnore    // TODO: remover?
     private Timestamp createdAt;
 
     // new é para nunca ser null
@@ -56,6 +56,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {
@@ -88,13 +96,5 @@ public class User {
 
     public void setDeck(List<UserCard> deck) {
         this.deck = deck;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 }

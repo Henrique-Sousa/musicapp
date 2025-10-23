@@ -1,7 +1,5 @@
 package br.com.henriquesousa.musicapp.dto;
 
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserCardRequestDTO {
-    private UUID userUuid;
-    private UUID cardUuid;
-    private int box;
+public class CardRequestDTO {
+    private String question;
+    private String answer;
 }

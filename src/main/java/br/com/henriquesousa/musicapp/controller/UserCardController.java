@@ -55,7 +55,7 @@ public class UserCardController {
         UserCard userCard = new UserCard();
 
         Optional<User> maybeUser = userRepository.findByUuid(newUserCardRequest.getUserUuid());
-        Optional<Card> maybeCard = cardRepository.findById(newUserCardRequest.getCardId());
+        Optional<Card> maybeCard = cardRepository.findByUuid(newUserCardRequest.getCardUuid());
 
         User user = null;
         Card card = null;

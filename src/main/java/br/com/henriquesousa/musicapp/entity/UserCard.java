@@ -42,6 +42,14 @@ public class UserCard {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
+    }
  
     public User getUser() {
         return user;
@@ -73,13 +81,5 @@ public class UserCard {
 
     public void setBox(int box) {
         this.box = box;
-    }
-
-    public UUID getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(UUID uuid) {
-        this.uuid = uuid;
     }
 }

@@ -1,6 +1,9 @@
 package br.com.henriquesousa.musicapp.service;
 
+import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,4 +21,10 @@ public class CardService {
         return cardRepository.findAll();
     }
 
+    public Optional<Card> create(Card newCard) {
+        newCard.setUuid(UUID.randomUUID());
+        newCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+        cardRepository.saveAndFlush(newCard);
+        return Optional.of(newCard);
+    }
 }

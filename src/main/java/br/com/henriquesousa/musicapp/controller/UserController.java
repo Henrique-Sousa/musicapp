@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.dto.UserRequestDTO;
 import br.com.henriquesousa.musicapp.dto.UserResponseDTO;
 import br.com.henriquesousa.musicapp.entity.User;
@@ -33,10 +34,7 @@ public class UserController {
         List<User> users = userService.list(); 
         List<UserResponseDTO> userResponses = new ArrayList<>();
         for (var user : users) {
-            UserResponseDTO userResponse = new UserResponseDTO(
-                    user.getUuid(),
-                    user.getName(),
-                    user.getUserName());
+            UserResponseDTO userResponse = FactoryDTO.entityToDTO(user);
             userResponses.add(userResponse);
         }
         return ResponseEntity.ok(userResponses);
@@ -44,19 +42,10 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<UserResponseDTO> create(@RequestBody UserRequestDTO newUserRequest) {
-        User user = new User();
-        user.setName(newUserRequest.getName());
-        user.setUserName(newUserRequest.getUserName());
+        User user = FactoryDTO.dtoToEntity(newUserRequest);
         Optional<User> maybeSavedUser = userService.create(user);
         if (maybeSavedUser.isPresent()) {
-            User savedUser = maybeSavedUser.get();
-            return ResponseEntity.status(HttpStatus.CREATED).body(
-                    new UserResponseDTO(
-                        savedUser.getUuid(),
-                        savedUser.getName(),
-                        savedUser.getUserName()
-                        )
-                    );
+            return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(user));
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -65,17 +54,11 @@ public class UserController {
     // TODO: colocar userName como path parameter? (PUT users/userName)
     @PutMapping
     public ResponseEntity<UserResponseDTO> update(@RequestBody UserRequestDTO updateUserRequest) {
-        User user = new User();
-        user.setName(updateUserRequest.getName());
-        user.setUserName(updateUserRequest.getUserName());
+        User user = FactoryDTO.dtoToEntity(updateUserRequest);
         Optional<User> maybeUpdatedUser = userService.update(user);
         if (maybeUpdatedUser.isPresent()) {
             User updatedUser = maybeUpdatedUser.get();
-            UserResponseDTO updatedUserResponse = new UserResponseDTO(
-                    updatedUser.getUuid(),
-                    updatedUser.getName(),
-                    updatedUser.getUserName()
-                );
+            UserResponseDTO updatedUserResponse = FactoryDTO.entityToDTO(updatedUser);
             return ResponseEntity.ok(updatedUserResponse);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
@@ -87,11 +70,7 @@ public class UserController {
         Optional<User> maybeDeletedUser = userService.delete(userName);
         if (maybeDeletedUser.isPresent()) {
             User deletedUser = maybeDeletedUser.get();
-            UserResponseDTO deletedUserResponse = new UserResponseDTO(
-                    deletedUser.getUuid(),
-                    deletedUser.getName(),
-                    deletedUser.getUserName()
-                );
+            UserResponseDTO deletedUserResponse = FactoryDTO.entityToDTO(deletedUser);
             return ResponseEntity.ok(deletedUserResponse);
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

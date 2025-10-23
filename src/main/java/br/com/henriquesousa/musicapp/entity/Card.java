@@ -29,7 +29,6 @@ public class Card {
     @Column
     private String answer;
 
-    //TODO: precisa de new aqui?
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
     private List<UserCard> deck = new ArrayList<>();
 

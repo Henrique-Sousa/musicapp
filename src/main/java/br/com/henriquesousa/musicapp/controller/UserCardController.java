@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.dto.UserCardRequestDTO;
 import br.com.henriquesousa.musicapp.dto.UserCardResponseDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
@@ -40,12 +41,7 @@ public class UserCardController {
         List<UserCard> userCards = userCardService.list();
         List<UserCardResponseDTO> userCardResponses = new ArrayList<>();
         for (var userCard : userCards) {
-            UserCardResponseDTO userCardResponse = new UserCardResponseDTO(
-                    userCard.getUuid(),
-                    userCard.getUser().getUuid(),
-                    userCard.getCard().getId(),
-                    userCard.getBox()
-                    );
+            UserCardResponseDTO userCardResponse = FactoryDTO.entityToDTO(userCard);
             userCardResponses.add(userCardResponse);
         }
         return ResponseEntity.ok(userCardResponses);
@@ -55,6 +51,7 @@ public class UserCardController {
     public ResponseEntity<UserCardResponseDTO> create(@RequestBody UserCardRequestDTO newUserCardRequest) {
         // TODO: precisa mesmo criar tudo isso? o jackson fazia isso automaticamente
 
+        // TODO: jogar essa logica pro service
         UserCard userCard = new UserCard();
 
         Optional<User> maybeUser = userRepository.findByUuid(newUserCardRequest.getUserUuid());
@@ -82,13 +79,7 @@ public class UserCardController {
         Optional<UserCard> maybeSavedUserCard = userCardService.create(userCard);
 
         if (maybeSavedUserCard.isPresent()) {
-            UserCard savedUserCard = maybeSavedUserCard.get(); 
-            UserCardResponseDTO userResponse = new UserCardResponseDTO(
-                    savedUserCard.getUuid(),
-                    user.getUuid(),
-                    card.getId(),
-                    savedUserCard.getBox()
-                    );
+            UserCardResponseDTO userResponse = FactoryDTO.entityToDTO(userCard);
             return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
         } else {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();

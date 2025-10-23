@@ -39,9 +39,16 @@ public class User {
     @JsonIgnore
     private Timestamp createdAt;
 
-    //TODO: precisa de new aqui?
+    // new é para nunca ser null
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
     private List<UserCard> deck = new ArrayList<>();
+
+    public User() {}
+
+    public User(String name, String userName) {
+        this.name = name;
+        this.userName = userName;
+    }
 
     public Long getId() {
         return id;

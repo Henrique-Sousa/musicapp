@@ -20,11 +20,15 @@ public class UserCardService {
         return userCardRepository.findAll();
     }
 
-    public void create(UserCard newUserCard) {
+    public boolean create(UserCard newUserCard) {
         // TODO: testar se já tem um usercard com esse usuario e esse card
-        newUserCard.setUuid(UUID.randomUUID());
-        newUserCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        // TODO: usar um try-catch aqui 
-        userCardRepository.saveAndFlush(newUserCard);
+        try {
+            newUserCard.setUuid(UUID.randomUUID());
+            newUserCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            userCardRepository.saveAndFlush(newUserCard);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

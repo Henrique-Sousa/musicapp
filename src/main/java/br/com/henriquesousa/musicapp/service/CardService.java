@@ -24,10 +24,16 @@ public class CardService {
         return cardRepository.findByUuid(uuid).get();
     }
 
-    public void create(Card newCard) {
+    // TODO: deveria retornar um objeto com boolean, Card e errorMessage?
+    public boolean create(Card newCard) {
         // TODO: testar se ja tem um card igual
-        newCard.setUuid(UUID.randomUUID());
-        newCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        cardRepository.saveAndFlush(newCard);
+        try {
+            newCard.setUuid(UUID.randomUUID());
+            newCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            cardRepository.saveAndFlush(newCard);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

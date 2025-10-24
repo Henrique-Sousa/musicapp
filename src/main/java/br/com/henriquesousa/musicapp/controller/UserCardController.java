@@ -2,7 +2,6 @@ package br.com.henriquesousa.musicapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,9 +18,9 @@ import br.com.henriquesousa.musicapp.dto.UserCardResponseDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.entity.UserCard;
-import br.com.henriquesousa.musicapp.repository.CardRepository;
-import br.com.henriquesousa.musicapp.repository.UserRepository;
+import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.UserCardService;
+import br.com.henriquesousa.musicapp.service.UserService;
 
 @RestController
 @RequestMapping("/user-cards")
@@ -31,20 +30,16 @@ public class UserCardController {
     private UserCardService userCardService;
 
     @Autowired
-    private UserRepository userRepository;  
+    private CardService cardService;
 
     @Autowired
-    private CardRepository cardRepository;  
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<UserCardResponseDTO>> list() {
         List<UserCard> userCards = userCardService.list();
         List<UserCardResponseDTO> userCardResponses = new ArrayList<>();
         for (var userCard : userCards) {
-            Optional<User> maybeUser = userRepository.findByUuid(userCard.getUser().getUuid());
-            Optional<Card> maybeCard = cardRepository.findByUuid(userCard.getCard().getUuid());
-            userCard.setUser(maybeUser.get());
-            userCard.setCard(maybeCard.get());
             UserCardResponseDTO userCardResponse = FactoryDTO.entityToDTO(userCard);
             userCardResponses.add(userCardResponse);
         }
@@ -55,26 +50,10 @@ public class UserCardController {
     public ResponseEntity<UserCardResponseDTO> create(@RequestBody UserCardRequestDTO newUserCardRequest) {
         // TODO: precisa mesmo criar tudo isso? o jackson fazia isso automaticamente
 
-        // TODO: jogar essa logica pro service
         UserCard userCard = new UserCard();
 
-        Optional<User> maybeUser = userRepository.findByUuid(newUserCardRequest.getUserUuid());
-        Optional<Card> maybeCard = cardRepository.findByUuid(newUserCardRequest.getCardUuid());
-
-        User user = null;
-        Card card = null;
-
-        if (maybeUser.isPresent()) {
-            user = maybeUser.get();
-        } else {
-            // TODO: retornar usuario nao achado
-        }
-
-        if (maybeCard.isPresent()) {
-            card = maybeCard.get();
-        } else {
-            // TODO: retornar card nao achado
-        }
+        User user = userService.getByUuid(newUserCardRequest.getUserUuid());
+        Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());
 
         userCard.setUser(user);
         userCard.setCard(card); 

@@ -20,6 +20,10 @@ public class CardService {
         return cardRepository.findAll();
     }
 
+    public Card getByUuid(UUID uuid) {
+        return cardRepository.findByUuid(uuid).get();
+    }
+
     public void create(Card newCard) {
         // TODO: testar se ja tem um card igual
         newCard.setUuid(UUID.randomUUID());

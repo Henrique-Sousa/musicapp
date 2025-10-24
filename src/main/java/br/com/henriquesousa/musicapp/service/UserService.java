@@ -21,6 +21,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public User getByUuid(UUID uuid) {
+        return userRepository.findByUuid(uuid).get();
+    }
+
     public boolean create(User newUser) {
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
             // TODO: usar @Valid?

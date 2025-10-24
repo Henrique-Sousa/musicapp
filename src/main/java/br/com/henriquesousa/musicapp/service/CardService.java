@@ -2,7 +2,6 @@ package br.com.henriquesousa.musicapp.service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,10 @@ public class CardService {
         return cardRepository.findAll();
     }
 
-    public Optional<Card> create(Card newCard) {
+    public void create(Card newCard) {
+        // TODO: testar se ja tem um card igual
         newCard.setUuid(UUID.randomUUID());
         newCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
         cardRepository.saveAndFlush(newCard);
-        return Optional.of(newCard);
     }
 }

@@ -21,9 +21,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    // TODO: fazer try/catch no lugar de if's?
-
-    public Optional<User> create(User newUser) {
+    public boolean create(User newUser) {
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
             // TODO: usar @Valid?
             // TODO: refatorar - testar primeiro se ja NAO existe o usuario
@@ -33,38 +31,40 @@ public class UserService {
             
             // TODO: testar se tem name
             
+            // TODO: colocar esse teste no controller?
             if (newUser.getUserName() != null) {
                 newUser.setUuid(UUID.randomUUID());
                 newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
                 userRepository.saveAndFlush(newUser);
-                return Optional.of(newUser);
             }
             // TODO: no momento, se o json nao tiver os campos corretos,
             // retorna empty o que faz com que o controller retorne CONFLICT
             // mas sera que eh o melhor status code pra isso?
-            return Optional.empty();
+            return true;
         }
-        return Optional.empty();
+        return false;
+
     }
 
-    public Optional<User> update(User updatedUser) {
+    public boolean update(User updatedUser) {
         Optional<User> user = userRepository.findByUserName(updatedUser.getUserName());
         // TODO: permitir que se mude o user_name? talvez seja melhor nao
         // TODO: criar updatedAt?
         if (user.isPresent()) {
             user.get().setName(updatedUser.getName());
             userRepository.saveAndFlush(user.get()); 
-            return user;
+            return true;
+        } else {
+            return false;
         }
-        return Optional.empty();
     }
 
-    public Optional<User> delete(String userName) {
-        Optional<User> maybeUser = userRepository.findByUserName(userName);
+    public boolean delete(User userToDelete) {
+        Optional<User> maybeUser = userRepository.findByUserName(userToDelete.getName());
         if (maybeUser.isPresent()) {
-            userRepository.deleteByUserName(userName);
-            return maybeUser;
+            userRepository.delete(userToDelete);
+            return true;
         }
-        return Optional.empty();
+        return false;
     }
 }

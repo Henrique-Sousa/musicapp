@@ -2,7 +2,6 @@ package br.com.henriquesousa.musicapp.service;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +20,11 @@ public class UserCardService {
         return userCardRepository.findAll();
     }
 
-    public Optional<UserCard> create(UserCard newUserCard) {
+    public void create(UserCard newUserCard) {
         // TODO: testar se já tem um usercard com esse usuario e esse card
         newUserCard.setUuid(UUID.randomUUID());
         newUserCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-        // TODO: devo usar mais try-catch no lugar de if-else?
-        try {
-            userCardRepository.saveAndFlush(newUserCard);
-            return Optional.of(newUserCard);
-        } catch (Exception e)  {
-            return Optional.empty();
-        }
+        // TODO: usar um try-catch aqui 
+        userCardRepository.saveAndFlush(newUserCard);
     }
 }

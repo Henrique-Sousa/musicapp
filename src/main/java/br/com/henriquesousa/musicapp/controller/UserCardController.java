@@ -41,6 +41,10 @@ public class UserCardController {
         List<UserCard> userCards = userCardService.list();
         List<UserCardResponseDTO> userCardResponses = new ArrayList<>();
         for (var userCard : userCards) {
+            Optional<User> maybeUser = userRepository.findByUuid(userCard.getUser().getUuid());
+            Optional<Card> maybeCard = cardRepository.findByUuid(userCard.getCard().getUuid());
+            userCard.setUser(maybeUser.get());
+            userCard.setCard(maybeCard.get());
             UserCardResponseDTO userCardResponse = FactoryDTO.entityToDTO(userCard);
             userCardResponses.add(userCardResponse);
         }
@@ -69,20 +73,17 @@ public class UserCardController {
         if (maybeCard.isPresent()) {
             card = maybeCard.get();
         } else {
-            // TODO: retornar card nao achado
+            // TnullODO: retornar card nao achado
         }
 
         userCard.setUser(user);
         userCard.setCard(card); 
         userCard.setBox(newUserCardRequest.getBox());
 
-        Optional<UserCard> maybeSavedUserCard = userCardService.create(userCard);
+        userCardService.create(userCard);
+        System.out.println(userCard);
 
-        if (maybeSavedUserCard.isPresent()) {
-            UserCardResponseDTO userResponse = FactoryDTO.entityToDTO(userCard);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
-        } else {
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        UserCardResponseDTO userResponse = FactoryDTO.entityToDTO(userCard);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 }

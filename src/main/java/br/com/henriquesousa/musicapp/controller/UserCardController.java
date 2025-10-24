@@ -81,7 +81,6 @@ public class UserCardController {
         userCard.setBox(newUserCardRequest.getBox());
 
         userCardService.create(userCard);
-        System.out.println(userCard);
 
         UserCardResponseDTO userResponse = FactoryDTO.entityToDTO(userCard);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);

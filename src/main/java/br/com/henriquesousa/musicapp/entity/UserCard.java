@@ -35,6 +35,12 @@ public class UserCard {
     @Column
     private Timestamp createdAt;
 
+    public UserCard(User user, Card card, int box) {
+        this.user = user;
+        this.card = card;
+        this.box = box;
+    }
+
     public Long getId() {
         return id;
     }

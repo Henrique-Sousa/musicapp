@@ -50,14 +50,10 @@ public class UserCardController {
     public ResponseEntity<UserCardResponseDTO> create(@RequestBody UserCardRequestDTO newUserCardRequest) {
         // TODO: precisa mesmo criar tudo isso? o jackson fazia isso automaticamente
 
-        UserCard userCard = new UserCard();
-
         User user = userService.getByUuid(newUserCardRequest.getUserUuid());
         Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());
 
-        userCard.setUser(user);
-        userCard.setCard(card); 
-        userCard.setBox(newUserCardRequest.getBox());
+        UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());
 
         userCardService.create(userCard);
 

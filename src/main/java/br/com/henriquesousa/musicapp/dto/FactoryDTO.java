@@ -9,7 +9,7 @@ public class FactoryDTO {
         return new User(
                 userRequestDTO.getName(),
                 userRequestDTO.getUserName()
-        );
+                );
     }
 
     public static UserResponseDTO entityToDTO(User user) {
@@ -17,30 +17,30 @@ public class FactoryDTO {
                 user.getUuid(),
                 user.getName(),
                 user.getUserName()
-        );
+                );
     }
 
     public static UserCardResponseDTO entityToDTO(UserCard userCard) {
         return new UserCardResponseDTO(
-                    userCard.getUuid(),
-                    userCard.getUser().getUuid(),
-                    userCard.getCard().getUuid(),
-                    userCard.getBox()
-        );
+                userCard.getUuid(),
+                userCard.getUser().getUuid(),
+                userCard.getCard().getUuid(),
+                userCard.getBox()
+                );
     }
 
     public static Card dtoToEntity(CardRequestDTO cardRequestDTO) {
         return new Card(
-                    cardRequestDTO.getQuestion(),
-                    cardRequestDTO.getAnswer()
-        );
+                cardRequestDTO.getQuestion(),
+                cardRequestDTO.getAnswer()
+                );
     }
 
     public static CardResponseDTO entityToDTO(Card card) {
         return new CardResponseDTO(
-                    card.getUuid(),
-                    card.getQuestion(),
-                    card.getAnswer()
-        );
+                card.getUuid(),
+                card.getQuestion(),
+                card.getAnswer()
+                );
     }
 }

@@ -25,7 +25,7 @@ public class CardService {
     }
 
     // TODO: deveria retornar um objeto com boolean, Card e errorMessage?
-    public boolean create(Card newCard) {
+    public boolean create(Card newCard) throws Exception {
         // TODO: testar se ja tem um card igual
         try {
             newCard.setUuid(UUID.randomUUID());
@@ -33,7 +33,8 @@ public class CardService {
             cardRepository.saveAndFlush(newCard);
             return true;
         } catch (Exception e) {
-            return false;
+        //    return false;
+            throw new Exception();
         }
     }
 }

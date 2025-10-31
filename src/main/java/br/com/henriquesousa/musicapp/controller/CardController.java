@@ -39,7 +39,11 @@ public class CardController {
     @PostMapping
     public ResponseEntity<CardResponseDTO> create(@RequestBody CardRequestDTO newCardRequest) {
         Card card = FactoryDTO.dtoToEntity(newCardRequest);
-        cardService.create(card);
-        return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
+        try {
+            cardService.create(card);
+            return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
+        }
     }
 }

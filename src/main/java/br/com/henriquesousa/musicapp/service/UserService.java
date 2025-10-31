@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.repository.UserRepository;
+import br.com.henriquesousa.musicapp.service.exception.UserNotCreatedException;
+import br.com.henriquesousa.musicapp.service.exception.UserNotFoundException;
 
 @Service
 public class UserService {
@@ -25,7 +27,7 @@ public class UserService {
         return userRepository.findByUuid(uuid).get();
     }
 
-    public boolean create(User newUser) {
+    public boolean create(User newUser) throws UserNotCreatedException {
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
             // TODO: usar @Valid?
             // TODO: refatorar - testar primeiro se ja NAO existe o usuario
@@ -47,28 +49,28 @@ public class UserService {
             return true;
         }
         return false;
-
     }
 
-    public boolean update(User updatedUser) {
+    public void update(User updatedUser) throws UserNotFoundException {
         Optional<User> user = userRepository.findByUserName(updatedUser.getUserName());
         // TODO: permitir que se mude o user_name? talvez seja melhor nao
         // TODO: criar updatedAt?
         if (user.isPresent()) {
             user.get().setName(updatedUser.getName());
             userRepository.saveAndFlush(user.get()); 
-            return true;
-        } else {
-            return false;
         }
+        throw new UserNotFoundException();
     }
 
-    public boolean delete(User userToDelete) {
-        Optional<User> maybeUser = userRepository.findByUserName(userToDelete.getName());
+    public void delete(User userToDelete) throws UserNotFoundException {
+        // TODO: try catch?
+        Optional<User> maybeUser = userRepository.findByUserName(userToDelete.getUserName());
+        // TODO: nao seria melhor usar try aqui e throw dentro de catch?
         if (maybeUser.isPresent()) {
+            // TODO: ou um try aqui?
+            // exception: erro do banco de dados?
             userRepository.delete(userToDelete);
-            return true;
         }
-        return false;
+        throw new UserNotFoundException();
     }
 }

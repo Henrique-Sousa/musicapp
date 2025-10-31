@@ -43,4 +43,8 @@ public class FactoryDTO {
                 card.getAnswer()
                 );
     }
+
+    public static ErrorDTO exceptionToDTO(Exception exception) {
+        return new ErrorDTO(exception.getMessage(), true);
+    }
 }

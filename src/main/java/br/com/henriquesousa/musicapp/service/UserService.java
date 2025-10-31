@@ -28,6 +28,7 @@ public class UserService {
     }
 
     public boolean create(User newUser) throws UserNotCreatedException {
+        // TODO: try catch
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
             // TODO: usar @Valid?
             // TODO: refatorar - testar primeiro se ja NAO existe o usuario

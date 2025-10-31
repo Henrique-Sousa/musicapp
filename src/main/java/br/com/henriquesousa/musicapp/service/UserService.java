@@ -27,7 +27,7 @@ public class UserService {
         return userRepository.findByUuid(uuid).get();
     }
 
-    public boolean create(User newUser) throws UserNotCreatedException {
+    public void create(User newUser) throws UserNotCreatedException {
         // TODO: try catch
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
             // TODO: usar @Valid?
@@ -47,9 +47,9 @@ public class UserService {
             // TODO: no momento, se o json nao tiver os campos corretos,
             // retorna empty o que faz com que o controller retorne CONFLICT
             // mas sera que eh o melhor status code pra isso?
-            return true;
+            return;
         }
-        return false;
+        throw new UserNotCreatedException();
     }
 
     public void update(User updatedUser) throws UserNotFoundException {

@@ -53,12 +53,17 @@ public class UserService {
     }
 
     public void update(User updatedUser) throws UserNotFoundException {
-        Optional<User> user = userRepository.findByUserName(updatedUser.getUserName());
+        Optional<User> maybeUser = userRepository.findByUserName(updatedUser.getUserName());
         // TODO: permitir que se mude o user_name? talvez seja melhor nao
         // TODO: criar updatedAt?
-        if (user.isPresent()) {
-            user.get().setName(updatedUser.getName());
-            userRepository.saveAndFlush(user.get()); 
+        if (maybeUser.isPresent()) {
+            User dbUser = maybeUser.get();
+            dbUser.setName(updatedUser.getName());
+            userRepository.saveAndFlush(dbUser); 
+            // TODO: por que updatedUser = dbUser nao eh o suficiente?
+            updatedUser.setName(dbUser.getName());
+            updatedUser.setUuid(dbUser.getUuid());
+            return;
         }
         throw new UserNotFoundException();
     }

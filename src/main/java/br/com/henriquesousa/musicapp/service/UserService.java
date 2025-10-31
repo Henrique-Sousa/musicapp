@@ -73,9 +73,14 @@ public class UserService {
         Optional<User> maybeUser = userRepository.findByUserName(userToDelete.getUserName());
         // TODO: nao seria melhor usar try aqui e throw dentro de catch?
         if (maybeUser.isPresent()) {
+            User dbUser = maybeUser.get();
             // TODO: ou um try aqui?
             // exception: erro do banco de dados?
-            userRepository.delete(userToDelete);
+            // por que delete nao sinaliza se conseguiu deletar o usuario ou nao?
+            userRepository.delete(dbUser);
+            userToDelete.setName(dbUser.getName());
+            userToDelete.setUuid(dbUser.getUuid());
+            return;
         }
         throw new UserNotFoundException();
     }

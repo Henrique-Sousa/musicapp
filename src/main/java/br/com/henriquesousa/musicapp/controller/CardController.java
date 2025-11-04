@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.henriquesousa.musicapp.dto.CardRequestDTO;
 import br.com.henriquesousa.musicapp.dto.CardResponseDTO;
+import br.com.henriquesousa.musicapp.dto.ErrorDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.service.CardService;
+import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
 
 @RestController
 @RequestMapping("/cards")
@@ -36,14 +38,17 @@ public class CardController {
         return ResponseEntity.ok(cardResponses);
     }
 
+    // TODO: é igualzinho ao create do User, devo refatorar?
     @PostMapping
-    public ResponseEntity<CardResponseDTO> create(@RequestBody CardRequestDTO newCardRequest) {
+    public ResponseEntity<?> create(@RequestBody CardRequestDTO newCardRequest) {
         Card card = FactoryDTO.dtoToEntity(newCardRequest);
         try {
             cardService.create(card);
             return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
+        } catch (CardNotCreatedException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO("error", true));
         }
     }
 }

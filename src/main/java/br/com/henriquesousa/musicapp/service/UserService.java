@@ -23,8 +23,12 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public User getByUuid(UUID uuid) {
-        return userRepository.findByUuid(uuid).get();
+    public User getByUuid(UUID uuid) throws UserNotFoundException {
+        Optional<User> maybeUser = userRepository.findByUuid(uuid);
+        if (maybeUser.isPresent()) {
+            return maybeUser.get();
+        } 
+        throw new UserNotFoundException();
     }
 
     public void create(User newUser) throws UserNotCreatedException {

@@ -2,6 +2,7 @@ package br.com.henriquesousa.musicapp.service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.repository.CardRepository;
 import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
+import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
 
 @Service
 public class CardService {
@@ -21,8 +23,12 @@ public class CardService {
         return cardRepository.findAll();
     }
 
-    public Card getByUuid(UUID uuid) {
-        return cardRepository.findByUuid(uuid).get();
+    public Card getByUuid(UUID uuid) throws CardNotFoundException {
+        Optional<Card> maybeCard = cardRepository.findByUuid(uuid);
+        if (maybeCard.isPresent()) {
+            return maybeCard.get();
+        }
+        throw new CardNotFoundException();
     }
 
     // TODO: deveria retornar um objeto com boolean, Card e errorMessage?

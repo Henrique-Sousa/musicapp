@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.henriquesousa.musicapp.dto.ErrorDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.dto.UserCardRequestDTO;
 import br.com.henriquesousa.musicapp.dto.UserCardResponseDTO;
@@ -21,6 +22,9 @@ import br.com.henriquesousa.musicapp.entity.UserCard;
 import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.UserCardService;
 import br.com.henriquesousa.musicapp.service.UserService;
+import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
+import br.com.henriquesousa.musicapp.service.exception.UserCardNotCreatedException;
+import br.com.henriquesousa.musicapp.service.exception.UserNotFoundException;
 
 @RestController
 @RequestMapping("/user-cards")
@@ -47,17 +51,23 @@ public class UserCardController {
     }
 
     @PostMapping
-    public ResponseEntity<UserCardResponseDTO> create(@RequestBody UserCardRequestDTO newUserCardRequest) {
+    public ResponseEntity<?> create(@RequestBody UserCardRequestDTO newUserCardRequest) {
         // TODO: precisa mesmo criar tudo isso? o jackson fazia isso automaticamente
-
-        User user = userService.getByUuid(newUserCardRequest.getUserUuid());
-        Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());
-
-        UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());
-
-        userCardService.create(userCard);
-
-        UserCardResponseDTO userResponse = FactoryDTO.entityToDTO(userCard);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+        try {
+            User user = userService.getByUuid(newUserCardRequest.getUserUuid());
+            Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());
+            UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());
+            userCardService.create(userCard);
+            UserCardResponseDTO userResponse = FactoryDTO.entityToDTO(userCard);
+            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+        } catch (UserNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
+        } catch (CardNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
+        } catch (UserCardNotCreatedException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
+        }
     }
 }

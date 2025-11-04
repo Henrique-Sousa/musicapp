@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.henriquesousa.musicapp.entity.UserCard;
 import br.com.henriquesousa.musicapp.repository.UserCardRepository;
+import br.com.henriquesousa.musicapp.service.exception.UserCardNotCreatedException;
 
 @Service
 public class UserCardService {
@@ -20,15 +21,14 @@ public class UserCardService {
         return userCardRepository.findAll();
     }
 
-    public boolean create(UserCard newUserCard) {
+    public void create(UserCard newUserCard) throws UserCardNotCreatedException {
         // TODO: testar se já tem um usercard com esse usuario e esse card
         try {
             newUserCard.setUuid(UUID.randomUUID());
             newUserCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             userCardRepository.saveAndFlush(newUserCard);
-            return true;
         } catch (Exception e) {
-            return false;
+            throw new UserCardNotCreatedException();
         }
     }
 }

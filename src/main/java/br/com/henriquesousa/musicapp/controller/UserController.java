@@ -54,7 +54,7 @@ public class UserController {
         } catch (UserNotCreatedException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDTO("error", true));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }
 

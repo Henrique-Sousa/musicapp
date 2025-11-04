@@ -3,6 +3,8 @@ package br.com.henriquesousa.musicapp.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +25,8 @@ import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
 @RestController
 @RequestMapping("/cards")
 public class CardController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
 
     @Autowired
     private CardService cardService;
@@ -46,8 +50,10 @@ public class CardController {
             cardService.create(card);
             return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
         } catch (CardNotCreatedException e) {
+            LOGGER.warn("falha ao criar um card", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
+            LOGGER.error("error inesperdo ao criar um card: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }

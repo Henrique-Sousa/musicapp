@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
 
 @Service
 public class CardService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CardService.class);
 
     @Autowired
     private CardRepository cardRepository = null;
@@ -34,10 +38,13 @@ public class CardService {
     // TODO: deveria retornar um objeto com boolean, Card e errorMessage?
     public void create(Card newCard) throws CardNotCreatedException {
         // TODO: testar se ja tem um card igual
+        LOGGER.debug("tentando criar o card");
         try {
             newCard.setUuid(UUID.randomUUID());
             newCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
+            LOGGER.trace("criando card com uuid " + newCard.getUuid());
             cardRepository.saveAndFlush(newCard);
+            LOGGER.info("card criado com sucesso com o id: " + newCard.getId());
         } catch (Exception e) {
             throw new CardNotCreatedException();
         }

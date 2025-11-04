@@ -35,6 +35,8 @@ public class UserCard {
     @Column
     private Timestamp createdAt;
 
+    public UserCard() {}
+
     public UserCard(User user, Card card, int box) {
         this.user = user;
         this.card = card;

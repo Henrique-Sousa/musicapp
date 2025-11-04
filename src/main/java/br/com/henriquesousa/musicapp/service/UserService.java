@@ -47,11 +47,12 @@ public class UserService {
                 newUser.setUuid(UUID.randomUUID());
                 newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
                 userRepository.saveAndFlush(newUser);
+                return;
             }
             // TODO: no momento, se o json nao tiver os campos corretos,
             // retorna empty o que faz com que o controller retorne CONFLICT
             // mas sera que eh o melhor status code pra isso?
-            return;
+            throw new UserNotCreatedException();
         }
         throw new UserNotCreatedException();
     }

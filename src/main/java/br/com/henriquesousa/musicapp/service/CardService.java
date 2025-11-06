@@ -53,6 +53,7 @@ public class CardService {
     }
 
     public void update(Card updatedCard) throws CardNotFoundException {
+        // TODO: impedir de fazer alteracoes que tornam esse card igual a outro? 
         Optional<Card> maybeCard = cardRepository.findByUuid(updatedCard.getUuid());
         if (maybeCard.isPresent()) {
             Card dbCard = maybeCard.get();
@@ -60,6 +61,16 @@ public class CardService {
             dbCard.setAnswer(updatedCard.getAnswer());
             cardRepository.saveAndFlush(dbCard); 
             updatedCard.setUuid(dbCard.getUuid());
+            return;
+        }
+        throw new CardNotFoundException();
+    }
+
+    public void delete(Card cardToDelete) throws CardNotFoundException {
+        Optional<Card> maybeCard = cardRepository.findByUuid(cardToDelete.getUuid());
+        if (maybeCard.isPresent()) {
+            Card dbCard = maybeCard.get();
+            cardRepository.delete(dbCard);
             return;
         }
         throw new CardNotFoundException();

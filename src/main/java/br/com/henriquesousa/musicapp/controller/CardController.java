@@ -2,23 +2,26 @@ package br.com.henriquesousa.musicapp.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.henriquesousa.musicapp.dto.NewCardDTO;
-import br.com.henriquesousa.musicapp.dto.ExistingCardDTO;
 import br.com.henriquesousa.musicapp.dto.ErrorDTO;
+import br.com.henriquesousa.musicapp.dto.ExistingCardDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
+import br.com.henriquesousa.musicapp.dto.NewCardDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
@@ -67,6 +70,21 @@ public class CardController {
             cardService.update(card);
             ExistingCardDTO updatedCardResponse = FactoryDTO.entityToDTO(card);
             return ResponseEntity.ok(updatedCardResponse);
+        } catch (CardNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
+        } catch (Throwable e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
+        }
+    }
+
+    @DeleteMapping("/{uuid}")
+    public ResponseEntity<?> delete(@PathVariable("uuid") UUID uuid) {
+        Card card = new Card();
+        card.setUuid(uuid);
+        try {
+            cardService.delete(card);
+            ExistingCardDTO deletedCardResponse = FactoryDTO.entityToDTO(card);
+            return ResponseEntity.ok(deletedCardResponse);
         } catch (CardNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {

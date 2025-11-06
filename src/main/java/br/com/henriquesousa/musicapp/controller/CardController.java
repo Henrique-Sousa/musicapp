@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.henriquesousa.musicapp.dto.CardRequestDTO;
-import br.com.henriquesousa.musicapp.dto.CardResponseDTO;
+import br.com.henriquesousa.musicapp.dto.NewCardDTO;
+import br.com.henriquesousa.musicapp.dto.ExistingCardDTO;
 import br.com.henriquesousa.musicapp.dto.ErrorDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
@@ -32,11 +32,11 @@ public class CardController {
     private CardService cardService;
 
     @GetMapping
-    public ResponseEntity<List<CardResponseDTO>> list() {
+    public ResponseEntity<List<ExistingCardDTO>> list() {
         List<Card> cards = cardService.list(); 
-        List<CardResponseDTO> cardResponses = new ArrayList<>();
+        List<ExistingCardDTO> cardResponses = new ArrayList<>();
         for (var card : cards) {
-            CardResponseDTO cardResponse = FactoryDTO.entityToDTO(card);
+            ExistingCardDTO cardResponse = FactoryDTO.entityToDTO(card);
             cardResponses.add(cardResponse);
         }
         return ResponseEntity.ok(cardResponses);
@@ -44,8 +44,8 @@ public class CardController {
 
     // TODO: é igualzinho ao create do User, devo refatorar?
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CardRequestDTO newCardRequest) {
-        Card card = FactoryDTO.dtoToEntity(newCardRequest);
+    public ResponseEntity<?> create(@RequestBody NewCardDTO newCardRequest) {
+        Card card = FactoryDTO.newDtoToEntity(newCardRequest);
         try {
             cardService.create(card);
             return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));

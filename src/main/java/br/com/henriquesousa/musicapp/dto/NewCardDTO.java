@@ -1,7 +1,5 @@
 package br.com.henriquesousa.musicapp.dto;
 
-import java.util.UUID;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,8 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CardResponseDTO {
-    private UUID uuid;
+public class NewCardDTO {
     private String question;
     private String answer;
 }

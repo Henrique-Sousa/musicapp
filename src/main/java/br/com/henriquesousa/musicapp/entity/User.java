@@ -50,6 +50,12 @@ public class User {
         this.userName = userName;
     }
 
+    public User(UUID uuid, String name, String userName) {
+        this.uuid = uuid;
+        this.name = name;
+        this.userName = userName;
+    }
+
     public Long getId() {
         return id;
     }

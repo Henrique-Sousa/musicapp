@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.henriquesousa.musicapp.dto.ErrorDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
-import br.com.henriquesousa.musicapp.dto.UserCardRequestDTO;
-import br.com.henriquesousa.musicapp.dto.UserCardResponseDTO;
+import br.com.henriquesousa.musicapp.dto.NewUserCardDTO;
+import br.com.henriquesousa.musicapp.dto.ExistingUserCardDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.entity.UserCard;
@@ -40,25 +40,25 @@ public class UserCardController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserCardResponseDTO>> list() {
+    public ResponseEntity<List<ExistingUserCardDTO>> list() {
         List<UserCard> userCards = userCardService.list();
-        List<UserCardResponseDTO> userCardResponses = new ArrayList<>();
+        List<ExistingUserCardDTO> userCardResponses = new ArrayList<>();
         for (var userCard : userCards) {
-            UserCardResponseDTO userCardResponse = FactoryDTO.entityToDTO(userCard);
+            ExistingUserCardDTO userCardResponse = FactoryDTO.entityToDTO(userCard);
             userCardResponses.add(userCardResponse);
         }
         return ResponseEntity.ok(userCardResponses);
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody UserCardRequestDTO newUserCardRequest) {
+    public ResponseEntity<?> create(@RequestBody NewUserCardDTO newUserCardRequest) {
         // TODO: precisa mesmo criar tudo isso? o jackson fazia isso automaticamente
         try {
             User user = userService.getByUuid(newUserCardRequest.getUserUuid());
             Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());
             UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());
             userCardService.create(userCard);
-            UserCardResponseDTO userResponse = FactoryDTO.entityToDTO(userCard);
+            ExistingUserCardDTO userResponse = FactoryDTO.entityToDTO(userCard);
             return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));

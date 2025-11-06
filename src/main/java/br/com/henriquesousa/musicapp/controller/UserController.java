@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.henriquesousa.musicapp.dto.ErrorDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
-import br.com.henriquesousa.musicapp.dto.UserRequestDTO;
-import br.com.henriquesousa.musicapp.dto.UserResponseDTO;
+import br.com.henriquesousa.musicapp.dto.NewUserDTO;
+import br.com.henriquesousa.musicapp.dto.ExistingUserDTO;
 import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.service.UserService;
 import br.com.henriquesousa.musicapp.service.exception.UserNotCreatedException;
@@ -32,12 +32,12 @@ public class UserController {
     private UserService userService;
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> list() {
+    public ResponseEntity<List<ExistingUserDTO>> list() {
         // TODO: fazer try/catch pro caso de o banco de dados nao responder?
         List<User> users = userService.list(); 
-        List<UserResponseDTO> userResponses = new ArrayList<>();
+        List<ExistingUserDTO> userResponses = new ArrayList<>();
         for (var user : users) {
-            UserResponseDTO userResponse = FactoryDTO.entityToDTO(user);
+            ExistingUserDTO userResponse = FactoryDTO.entityToDTO(user);
             userResponses.add(userResponse);
         }
         return ResponseEntity.ok(userResponses);
@@ -46,8 +46,8 @@ public class UserController {
     @PostMapping
     // TODO: deveria fazer todos os DTO herdarem de uma classe DTO?
     // assim poderia retornar ResponseEntity<? extends DTO>
-    public ResponseEntity<?> create(@RequestBody UserRequestDTO newUserRequest) {
-        User user = FactoryDTO.dtoToEntity(newUserRequest);
+    public ResponseEntity<?> create(@RequestBody NewUserDTO newUserRequest) {
+        User user = FactoryDTO.newDtoToEntity(newUserRequest);
         try {
             userService.create(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(user));
@@ -60,11 +60,11 @@ public class UserController {
 
     // TODO: colocar userName como path parameter? (PUT users/userName)
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody UserRequestDTO updateUserRequest) {
-        User user = FactoryDTO.dtoToEntity(updateUserRequest);
+    public ResponseEntity<?> update(@RequestBody NewUserDTO updateUserRequest) {
+        User user = FactoryDTO.newDtoToEntity(updateUserRequest);
         try {
             userService.update(user);
-            UserResponseDTO updatedUserResponse = FactoryDTO.entityToDTO(user);
+            ExistingUserDTO updatedUserResponse = FactoryDTO.entityToDTO(user);
             return ResponseEntity.ok(updatedUserResponse);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
@@ -79,7 +79,7 @@ public class UserController {
         user.setUserName(userName);
         try {
             userService.delete(user);
-            UserResponseDTO deletedUserResponse = FactoryDTO.entityToDTO(user);
+            ExistingUserDTO deletedUserResponse = FactoryDTO.entityToDTO(user);
             return ResponseEntity.ok(deletedUserResponse);
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));

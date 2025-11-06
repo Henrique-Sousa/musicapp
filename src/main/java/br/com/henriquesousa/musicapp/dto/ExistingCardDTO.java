@@ -9,9 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserCardResponseDTO {
+public class ExistingCardDTO {
     private UUID uuid;
-    private UUID userUuid;
-    private UUID cardUuid;
-    private int box;
+    private String question;
+    private String answer;
 }

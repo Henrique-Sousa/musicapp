@@ -49,6 +49,12 @@ public class Card {
         this.answer = answer;
     }
 
+    public Card(UUID uuid, String question, String answer) {
+        this.uuid = uuid;
+        this.question = question;
+        this.answer = answer;
+    }
+
     public Long getId() {
         return id;
     }

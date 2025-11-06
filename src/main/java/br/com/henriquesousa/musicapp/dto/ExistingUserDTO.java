@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data // cria getters e setters
-public class UserResponseDTO {
+public class ExistingUserDTO {
     private UUID uuid;
     private String name;
     private String userName;

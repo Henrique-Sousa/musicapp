@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
+import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
 
 @RestController
 @RequestMapping("/cards")
@@ -54,6 +56,20 @@ public class CardController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
             LOGGER.error("error inesperdo ao criar um card: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
+        }
+    }
+
+    @PutMapping
+    public ResponseEntity<?> update(@RequestBody ExistingCardDTO updateCardRequest) {
+        Card card = FactoryDTO.existingDtoToEntity(updateCardRequest);
+        try {
+            cardService.update(card);
+            ExistingCardDTO updatedCardResponse = FactoryDTO.entityToDTO(card);
+            return ResponseEntity.ok(updatedCardResponse);
+        } catch (CardNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
+        } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }

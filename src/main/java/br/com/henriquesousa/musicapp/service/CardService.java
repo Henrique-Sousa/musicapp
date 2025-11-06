@@ -51,4 +51,17 @@ public class CardService {
             throw new CardNotCreatedException();
         }
     }
+
+    public void update(Card updatedCard) throws CardNotFoundException {
+        Optional<Card> maybeCard = cardRepository.findByUuid(updatedCard.getUuid());
+        if (maybeCard.isPresent()) {
+            Card dbCard = maybeCard.get();
+            dbCard.setQuestion(updatedCard.getQuestion());
+            dbCard.setAnswer(updatedCard.getAnswer());
+            cardRepository.saveAndFlush(dbCard); 
+            updatedCard.setUuid(dbCard.getUuid());
+            return;
+        }
+        throw new CardNotFoundException();
+    }
 }

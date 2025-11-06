@@ -66,7 +66,6 @@ public class UserService {
             dbUser.setName(updatedUser.getName());
             userRepository.saveAndFlush(dbUser); 
             // TODO: por que updatedUser = dbUser nao eh o suficiente?
-            updatedUser.setName(dbUser.getName());
             updatedUser.setUuid(dbUser.getUuid());
             return;
         }

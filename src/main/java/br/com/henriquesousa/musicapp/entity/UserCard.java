@@ -43,6 +43,13 @@ public class UserCard {
         this.box = box;
     }
 
+    public UserCard(UUID uuid, User user, Card card, int box) {
+        this.uuid = uuid;
+        this.user = user;
+        this.card = card;
+        this.box = box;
+    }
+
     public Long getId() {
         return id;
     }

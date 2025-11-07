@@ -55,10 +55,8 @@ public class CardController {
             cardService.create(card);
             return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
         } catch (CardNotCreatedException e) {
-            LOGGER.warn("falha ao criar um card", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
-            LOGGER.error("error inesperdo ao criar um card: ", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }

@@ -40,13 +40,10 @@ public class CardService {
         // TODO: testar se ja tem um card igual
         // é por isso que estou fazendo um try catch aqui no lugar de if
         // porque ainda nao estou testando se tem um card igual
-        LOGGER.debug("tentando criar o card");
         try {
             newCard.setUuid(UUID.randomUUID());
             newCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-            LOGGER.trace("criando card com uuid " + newCard.getUuid());
             cardRepository.saveAndFlush(newCard);
-            LOGGER.info("card criado com sucesso com o id: " + newCard.getId());
         } catch (Exception e) {
             throw new CardNotCreatedException();
         }

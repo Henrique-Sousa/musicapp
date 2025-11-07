@@ -71,6 +71,8 @@ public class CardService {
         if (maybeCard.isPresent()) {
             Card dbCard = maybeCard.get();
             cardRepository.delete(dbCard);
+            cardToDelete.setQuestion(dbCard.getQuestion());
+            cardToDelete.setAnswer(dbCard.getAnswer());
             return;
         }
         throw new CardNotFoundException();

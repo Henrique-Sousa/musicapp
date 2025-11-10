@@ -65,7 +65,6 @@ public class UserService {
             User dbUser = maybeUser.get();
             dbUser.setName(updatedUser.getName());
             userRepository.saveAndFlush(dbUser); 
-            updatedUser.setUuid(dbUser.getUuid());
             return;
         }
         throw new UserNotFoundException();
@@ -81,8 +80,6 @@ public class UserService {
             // exception: erro do banco de dados?
             // por que delete nao sinaliza se conseguiu deletar o usuario ou nao?
             userRepository.delete(dbUser);
-            userToDelete.setName(dbUser.getName());
-            userToDelete.setUuid(dbUser.getUuid());
             return;
         }
         throw new UserNotFoundException();

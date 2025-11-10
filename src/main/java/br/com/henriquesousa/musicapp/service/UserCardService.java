@@ -56,7 +56,6 @@ public class UserCardService {
             dbUserCard.setCard(updatedUserCard.getCard());
             dbUserCard.setBox(updatedUserCard.getBox());
             userCardRepository.saveAndFlush(dbUserCard); 
-            updatedUserCard.setUuid(dbUserCard.getUuid());
             return;
         }
         throw new UserCardNotFoundException();
@@ -67,9 +66,6 @@ public class UserCardService {
         if (maybeUserCard.isPresent()) {
             UserCard dbUserCard = maybeUserCard.get();
             userCardRepository.delete(dbUserCard);
-            userCardToDelete.setUser(dbUserCard.getUser());
-            userCardToDelete.setCard(dbUserCard.getCard());
-            userCardToDelete.setBox(dbUserCard.getBox());
             return;
         }
         throw new UserCardNotFoundException();

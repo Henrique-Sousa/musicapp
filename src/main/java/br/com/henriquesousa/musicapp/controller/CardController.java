@@ -22,6 +22,7 @@ import br.com.henriquesousa.musicapp.dto.ErrorDTO;
 import br.com.henriquesousa.musicapp.dto.ExistingCardDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.dto.NewCardDTO;
+import br.com.henriquesousa.musicapp.dto.SuccessDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
@@ -53,7 +54,7 @@ public class CardController {
         Card card = FactoryDTO.newDtoToEntity(newCardRequest);
         try {
             cardService.create(card);
-            return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(card));
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (CardNotCreatedException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
@@ -66,8 +67,7 @@ public class CardController {
         Card card = FactoryDTO.existingDtoToEntity(updateCardRequest);
         try {
             cardService.update(card);
-            ExistingCardDTO updatedCardResponse = FactoryDTO.entityToDTO(card);
-            return ResponseEntity.ok(updatedCardResponse);
+            return ResponseEntity.ok(new SuccessDTO(true));
         } catch (CardNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
@@ -81,8 +81,7 @@ public class CardController {
         card.setUuid(uuid);
         try {
             cardService.delete(card);
-            ExistingCardDTO deletedCardResponse = FactoryDTO.entityToDTO(card);
-            return ResponseEntity.ok(deletedCardResponse);
+            return ResponseEntity.ok(new SuccessDTO(true));
         } catch (CardNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {

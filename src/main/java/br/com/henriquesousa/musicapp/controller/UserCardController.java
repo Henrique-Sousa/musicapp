@@ -22,6 +22,7 @@ import br.com.henriquesousa.musicapp.dto.ErrorDTO;
 import br.com.henriquesousa.musicapp.dto.ExistingUserCardDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.dto.NewUserCardDTO;
+import br.com.henriquesousa.musicapp.dto.SuccessDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.entity.UserCard;
@@ -67,8 +68,7 @@ public class UserCardController {
             Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());
             UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());
             userCardService.create(userCard);
-            ExistingUserCardDTO userResponse = FactoryDTO.entityToDTO(userCard);
-            return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (CardNotFoundException e) {
@@ -90,8 +90,7 @@ public class UserCardController {
             UUID uuid = updateUserCardRequest.getUuid();
             UserCard userCard = new UserCard(uuid, user, card, updateUserCardRequest.getBox());
             userCardService.update(userCard);
-            ExistingUserCardDTO updatedUserCardResponse = FactoryDTO.entityToDTO(userCard);
-            return ResponseEntity.ok(updatedUserCardResponse);
+            return ResponseEntity.ok(new SuccessDTO(true));
         } catch (UserCardNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
@@ -105,8 +104,7 @@ public class UserCardController {
         userCard.setUuid(uuid);
         try {
             userCardService.delete(userCard);
-            ExistingUserCardDTO deletedUserCardResponse = FactoryDTO.entityToDTO(userCard);
-            return ResponseEntity.ok(deletedUserCardResponse);
+            return ResponseEntity.ok(new SuccessDTO(true));
         } catch (UserCardNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {

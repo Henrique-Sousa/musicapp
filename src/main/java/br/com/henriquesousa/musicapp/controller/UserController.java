@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.henriquesousa.musicapp.dto.ErrorDTO;
+import br.com.henriquesousa.musicapp.dto.ExistingUserDTO;
 import br.com.henriquesousa.musicapp.dto.FactoryDTO;
 import br.com.henriquesousa.musicapp.dto.NewUserDTO;
-import br.com.henriquesousa.musicapp.dto.ExistingUserDTO;
+import br.com.henriquesousa.musicapp.dto.SuccessDTO;
 import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.service.UserService;
 import br.com.henriquesousa.musicapp.service.exception.UserNotCreatedException;
@@ -50,7 +51,7 @@ public class UserController {
         User user = FactoryDTO.newDtoToEntity(newUserRequest);
         try {
             userService.create(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(FactoryDTO.entityToDTO(user));
+            return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (UserNotCreatedException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
@@ -64,8 +65,7 @@ public class UserController {
         User user = FactoryDTO.newDtoToEntity(updateUserRequest);
         try {
             userService.update(user);
-            ExistingUserDTO updatedUserResponse = FactoryDTO.entityToDTO(user);
-            return ResponseEntity.ok(updatedUserResponse);
+            return ResponseEntity.ok(new SuccessDTO(true));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
@@ -79,8 +79,7 @@ public class UserController {
         user.setUserName(userName);
         try {
             userService.delete(user);
-            ExistingUserDTO deletedUserResponse = FactoryDTO.entityToDTO(user);
-            return ResponseEntity.ok(deletedUserResponse);
+            return ResponseEntity.ok(new SuccessDTO(true));
         } catch (UserNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {

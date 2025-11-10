@@ -11,14 +11,14 @@ import br.com.henriquesousa.musicapp.entity.User;
 import jakarta.transaction.Transactional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query(value = "select * from \"user\" where user_name = :userName", nativeQuery = true)
+    @Query(value = "SELECT * FROM \"user\" WHERE user_name = :userName", nativeQuery = true)
     Optional<User> findByUserName(String userName);
 
-    @Query(value = "select * from \"user\" where uuid = :uuid", nativeQuery = true)
+    @Query(value = "SELECT * FROM \"user\" WHERE uuid = :uuid", nativeQuery = true)
     Optional<User> findByUuid(UUID uuid);
 
     @Transactional
     @Modifying
-    @Query(value = "delete from \"user\" where user_name = :userName", nativeQuery = true)
+    @Query(value = "DELETE FROM \"user\" WHERE user_name = :userName", nativeQuery = true)
     void deleteByUserName(String userName);
 }

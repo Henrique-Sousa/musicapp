@@ -27,6 +27,7 @@ public class UserCardService {
         return userCardRepository.findAll();
     }
 
+    // TODO: aparentemente essa funcao nao esta sendo usada
     public UserCard getByUuid(UUID uuid) throws UserCardNotFoundException {
         Optional<UserCard> maybeUserCard = userCardRepository.findByUuid(uuid);
         if (maybeUserCard.isPresent()) {

@@ -62,7 +62,6 @@ public class UserCardController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody NewUserCardDTO newUserCardRequest) {
-        // TODO: precisa mesmo criar tudo isso? o jackson fazia isso automaticamente
         try {
             User user = userService.getByUuid(newUserCardRequest.getUserUuid());
             Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());

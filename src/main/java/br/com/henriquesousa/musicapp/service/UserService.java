@@ -32,7 +32,6 @@ public class UserService {
     }
 
     public void create(User newUser) throws UserNotCreatedException {
-        // TODO: try catch
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
             // TODO: usar @Valid?
             // TODO: refatorar - testar primeiro se ja NAO existe o usuario
@@ -78,7 +77,6 @@ public class UserService {
             User dbUser = maybeUser.get();
             // TODO: ou um try aqui?
             // exception: erro do banco de dados?
-            // por que delete nao sinaliza se conseguiu deletar o usuario ou nao?
             userRepository.delete(dbUser);
             return;
         }

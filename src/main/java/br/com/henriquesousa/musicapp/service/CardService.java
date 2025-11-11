@@ -35,7 +35,6 @@ public class CardService {
         throw new CardNotFoundException();
     }
 
-    // TODO: deveria retornar um objeto com boolean, Card e errorMessage?
     public void create(Card newCard) throws CardNotCreatedException {
         // TODO: testar se ja tem um card igual
         // é por isso que estou fazendo um try catch aqui no lugar de if

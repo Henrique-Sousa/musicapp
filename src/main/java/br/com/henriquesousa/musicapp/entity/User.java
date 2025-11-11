@@ -36,7 +36,6 @@ public class User {
     private String userName;
 
     @Column
-    @JsonIgnore    // TODO: remover?
     private Timestamp createdAt;
 
     // new é para nunca ser null

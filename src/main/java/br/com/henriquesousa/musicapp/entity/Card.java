@@ -35,7 +35,6 @@ public class Card {
     @Column
     private String answer;
 
-    @JsonIgnore    // TODO: remover?
     @Column
     private Timestamp createdAt;
 

@@ -27,15 +27,6 @@ public class UserCardService {
         return userCardRepository.findAll();
     }
 
-    // TODO: aparentemente essa funcao nao esta sendo usada
-    public UserCard getByUuid(UUID uuid) throws UserCardNotFoundException {
-        Optional<UserCard> maybeUserCard = userCardRepository.findByUuid(uuid);
-        if (maybeUserCard.isPresent()) {
-            return maybeUserCard.get();
-        }
-        throw new UserCardNotFoundException();
-    }
-
     public void create(UserCard newUserCard) throws UserCardNotCreatedException {
         // TODO: testar se já tem um usercard com esse usuario e esse card
         try {

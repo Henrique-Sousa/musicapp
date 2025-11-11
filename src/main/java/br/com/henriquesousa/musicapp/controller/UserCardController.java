@@ -43,12 +43,6 @@ public class UserCardController {
     @Autowired
     private UserCardService userCardService;
 
-    @Autowired
-    private CardService cardService;
-
-    @Autowired
-    private UserService userService;
-
     @GetMapping
     public ResponseEntity<List<ExistingUserCardDTO>> list() {
         List<UserCard> userCards = userCardService.list();
@@ -84,9 +78,10 @@ public class UserCardController {
         // TODO: tenho que "hydrate" o objeto userCard mesmo? só preciso das uuid
         // do user e do card pra fazer essa operação
         try {
-            User user = userService.getByUuid(updateUserCardRequest.getUserUuid());
-            Card card = cardService.getByUuid(updateUserCardRequest.getCardUuid());
-            UUID uuid = updateUserCardRequest.getUuid();
+            User user = new User(); 
+            user.setUuid(updateUserCardRequest.getUserUuid());
+            Card card = new Card(); 
+            card.setUuid(updateUserCardRequest.getCardUuid());
             UserCard userCard = new UserCard(uuid, user, card, updateUserCardRequest.getBox());
             userCardService.update(userCard);
             return ResponseEntity.ok(new SuccessDTO(true));

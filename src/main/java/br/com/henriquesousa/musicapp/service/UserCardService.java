@@ -10,13 +10,23 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.henriquesousa.musicapp.entity.Card;
+import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.entity.UserCard;
 import br.com.henriquesousa.musicapp.repository.UserCardRepository;
+import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
 import br.com.henriquesousa.musicapp.service.exception.UserCardNotCreatedException;
 import br.com.henriquesousa.musicapp.service.exception.UserCardNotFoundException;
+import br.com.henriquesousa.musicapp.service.exception.UserNotFoundException;
 
 @Service
 public class UserCardService {
+
+    @Autowired
+    private CardService cardService;
+
+    @Autowired
+    private UserService userService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CardService.class);
 
@@ -38,13 +48,15 @@ public class UserCardService {
         }
     }
 
-    public void update(UserCard updatedUserCard) throws UserCardNotFoundException {
+    public void update(UserCard updatedUserCard) throws UserCardNotFoundException, UserNotFoundException, CardNotFoundException {
         // TODO: impedir de fazer alteracoes que tornam esse userCard igual a outro? 
         Optional<UserCard> maybeUserCard = userCardRepository.findByUuid(updatedUserCard.getUuid());
         if (maybeUserCard.isPresent()) {
+            User user = userService.getByUuid(updatedUserCard.getUser().getUuid());
+            Card card = cardService.getByUuid(updatedUserCard.getCard().getUuid());
             UserCard dbUserCard = maybeUserCard.get();
-            dbUserCard.setUser(updatedUserCard.getUser());
-            dbUserCard.setCard(updatedUserCard.getCard());
+            dbUserCard.setUser(user);
+            dbUserCard.setCard(card);
             dbUserCard.setBox(updatedUserCard.getBox());
             userCardRepository.saveAndFlush(dbUserCard); 
             return;

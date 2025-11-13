@@ -28,7 +28,7 @@ public class UserCardService {
     @Autowired
     private UserService userService;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CardService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserCardService.class);
 
     @Autowired
     private UserCardRepository userCardRepository = null;

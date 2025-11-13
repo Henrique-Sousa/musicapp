@@ -26,9 +26,7 @@ import br.com.henriquesousa.musicapp.dto.SuccessDTO;
 import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.entity.UserCard;
-import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.UserCardService;
-import br.com.henriquesousa.musicapp.service.UserService;
 import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
 import br.com.henriquesousa.musicapp.service.exception.UserCardNotCreatedException;
 import br.com.henriquesousa.musicapp.service.exception.UserCardNotFoundException;
@@ -38,7 +36,7 @@ import br.com.henriquesousa.musicapp.service.exception.UserNotFoundException;
 @RequestMapping("/user-cards")
 public class UserCardController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(CardService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserCardController.class);
 
     @Autowired
     private UserCardService userCardService;

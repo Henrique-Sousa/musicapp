@@ -37,9 +37,13 @@ public class UserCardService {
         return userCardRepository.findAll();
     }
 
-    public void create(UserCard newUserCard) throws UserCardNotCreatedException {
+    public void create(UserCard newUserCard) throws UserCardNotCreatedException, UserNotFoundException, CardNotFoundException {
         // TODO: testar se já tem um usercard com esse usuario e esse card
         try {
+            User user = userService.getByUuid(newUserCard.getUser().getUuid());
+            Card card = cardService.getByUuid(newUserCard.getCard().getUuid());
+            newUserCard.setUser(user);
+            newUserCard.setCard(card);
             newUserCard.setUuid(UUID.randomUUID());
             newUserCard.setCreatedAt(new Timestamp(System.currentTimeMillis()));
             userCardRepository.saveAndFlush(newUserCard);

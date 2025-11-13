@@ -57,8 +57,10 @@ public class UserCardController {
     @PostMapping
     public ResponseEntity<?> create(@RequestBody NewUserCardDTO newUserCardRequest) {
         try {
-            User user = userService.getByUuid(newUserCardRequest.getUserUuid());
-            Card card = cardService.getByUuid(newUserCardRequest.getCardUuid());
+            User user = new User();
+            user.setUuid(newUserCardRequest.getUserUuid());
+            Card card = new Card(); 
+            card.setUuid(newUserCardRequest.getCardUuid());
             UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());
             userCardService.create(userCard);
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
@@ -82,6 +84,7 @@ public class UserCardController {
             user.setUuid(updateUserCardRequest.getUserUuid());
             Card card = new Card(); 
             card.setUuid(updateUserCardRequest.getCardUuid());
+            UUID uuid = updateUserCardRequest.getUuid();
             UserCard userCard = new UserCard(uuid, user, card, updateUserCardRequest.getBox());
             userCardService.update(userCard);
             return ResponseEntity.ok(new SuccessDTO(true));

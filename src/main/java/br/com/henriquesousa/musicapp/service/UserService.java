@@ -33,7 +33,6 @@ public class UserService {
 
     public void create(User newUser) throws UserNotCreatedException {
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
-            // TODO: usar @Valid?
             // TODO: refatorar - testar primeiro se ja NAO existe o usuario
             // AND se o json NAO tem os fields corretos
             // e caso algum desses de fato falhe, retornar .empty
@@ -41,7 +40,7 @@ public class UserService {
             
             // TODO: testar se tem name
             
-            // TODO: colocar esse teste no controller?
+            // TODO: colocar esse teste no controller com @Valid
             if (newUser.getUserName() != null) {
                 newUser.setUuid(UUID.randomUUID());
                 newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
@@ -73,10 +72,12 @@ public class UserService {
         // TODO: try catch?
         Optional<User> maybeUser = userRepository.findByUserName(userToDelete.getUserName());
         // TODO: nao seria melhor usar try aqui e throw dentro de catch?
+        // .get() throws NoSuchElementException - if there is no value present
         if (maybeUser.isPresent()) {
             User dbUser = maybeUser.get();
             // TODO: ou um try aqui?
             // exception: erro do banco de dados?
+            // só se eu realmente quiser passar essas informacoes detalhadas de erro pro usuario
             userRepository.delete(dbUser);
             return;
         }

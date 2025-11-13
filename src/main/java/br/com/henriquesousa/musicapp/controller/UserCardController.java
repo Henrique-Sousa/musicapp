@@ -75,8 +75,6 @@ public class UserCardController {
 
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ExistingUserCardDTO updateUserCardRequest) {
-        // TODO: tenho que "hydrate" o objeto userCard mesmo? só preciso das uuid
-        // do user e do card pra fazer essa operação
         try {
             User user = new User(); 
             user.setUuid(updateUserCardRequest.getUserUuid());

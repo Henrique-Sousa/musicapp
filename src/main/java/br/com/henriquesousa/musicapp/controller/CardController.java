@@ -48,7 +48,6 @@ public class CardController {
         return ResponseEntity.ok(cardResponses);
     }
 
-    // TODO: é igualzinho ao create do User, devo refatorar?
     @PostMapping
     public ResponseEntity<?> create(@RequestBody NewCardDTO newCardRequest) {
         Card card = FactoryDTO.newDtoToEntity(newCardRequest);

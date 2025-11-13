@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -30,15 +31,22 @@ import br.com.henriquesousa.musicapp.entity.User;
 import br.com.henriquesousa.musicapp.service.UserService;
 import br.com.henriquesousa.musicapp.service.exception.UserNotCreatedException;
 import br.com.henriquesousa.musicapp.service.exception.UserNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
+@Tag(name = "user", description = "services to manage users")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
+    @Tag(name = "crud")
+    @Tag(name = "list")
     @GetMapping
     public ResponseEntity<List<ExistingUserDTO>> list() {
         // TODO: fazer try/catch pro caso de o banco de dados nao responder?
@@ -51,9 +59,17 @@ public class UserController {
         return ResponseEntity.ok(userResponses);
     }
 
-    @PostMapping
+    @Tag(name = "crud")
+    @Tag(name = "create")
+    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     // TODO: deveria fazer todos os DTO herdarem de uma classe DTO?
     // assim poderia retornar ResponseEntity<? extends DTO>
+    @Operation(summary = "create a new user", description = "cria um novo usuario")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "201", description = "user successfully created"), 
+        @ApiResponse(responseCode = "409", description = "user not created"),
+        @ApiResponse(responseCode = "500", description = "internal server error"),
+    })
     public ResponseEntity<?> create(@RequestBody @Valid NewUserDTO newUserRequest) {
         User user = FactoryDTO.newDtoToEntity(newUserRequest);
         try {

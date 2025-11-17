@@ -59,6 +59,7 @@ public class UserService {
         Optional<User> maybeUser = userRepository.findByUserName(updatedUser.getUserName());
         // TODO: permitir que se mude o user_name? talvez seja melhor nao
         // TODO: criar updatedAt?
+        // TODO: trocar pra update by uuid
         if (maybeUser.isPresent()) {
             User dbUser = maybeUser.get();
             dbUser.setName(updatedUser.getName());

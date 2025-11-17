@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,6 +31,8 @@ import br.com.henriquesousa.musicapp.service.UserService;
 import br.com.henriquesousa.musicapp.service.exception.UserNotCreatedException;
 import br.com.henriquesousa.musicapp.service.exception.UserNotFoundException;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -45,9 +46,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Tag(name = "crud")
-    @Tag(name = "list")
     @GetMapping
+    @Operation(summary = "list users", description = "list all users")
+    @ApiResponse(responseCode = "200", description = "users successfully retrieved")
     public ResponseEntity<List<ExistingUserDTO>> list() {
         // TODO: fazer try/catch pro caso de o banco de dados nao responder?
         List<User> users = userService.list(); 
@@ -59,15 +60,32 @@ public class UserController {
         return ResponseEntity.ok(userResponses);
     }
 
-    @Tag(name = "crud")
-    @Tag(name = "create")
-    @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping
     // TODO: deveria fazer todos os DTO herdarem de uma classe DTO?
     // assim poderia retornar ResponseEntity<? extends DTO>
-    @Operation(summary = "create a new user", description = "cria um novo usuario")
+    @Operation(summary = "create a new user", description = "creates a new user with a name and username")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "201", description = "user successfully created"), 
-        @ApiResponse(responseCode = "409", description = "user not created"),
+        @ApiResponse(
+            responseCode = "201", description = "user successfully created",
+            content = @Content(examples = @ExampleObject(name = "success", value = """
+                    { "success": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400", description = "fields missing",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "userName": "username-required", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "409", description = "user not created",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "code": "user-not-created", "error": true }
+                """)
+            )
+        ),
         @ApiResponse(responseCode = "500", description = "internal server error"),
     })
     public ResponseEntity<?> create(@RequestBody @Valid NewUserDTO newUserRequest) {
@@ -76,6 +94,7 @@ public class UserController {
             userService.create(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (UserNotCreatedException e) {
+            // TODO: devo logar isso?
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
@@ -84,6 +103,32 @@ public class UserController {
 
     // TODO: colocar userName como path parameter? (PUT users/userName)
     @PutMapping
+    @Operation(summary = "update a user", description = "update a user with new values for it's fields")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", description = "user successfully updated",
+            content = @Content(examples = @ExampleObject(name = "success", value = """
+                    { "success": true }
+                """)
+            )
+        ),
+        // @ApiResponse(
+        //     responseCode = "400", description = "fields missing",
+        //     content = @Content(examples = @ExampleObject(name = "error", value = """
+        //             { "userName": "username-required", "error": true }
+        //         """)
+        //     )
+        // ),
+        @ApiResponse(
+            responseCode = "404", description = "user not found",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "code": "user-not-found", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(responseCode = "500", description = "internal server error"),
+    })
+    // TODO: trocar pra existingUserDTO e fazer o update por uuid
     public ResponseEntity<?> update(@RequestBody NewUserDTO updateUserRequest) {
         User user = FactoryDTO.newDtoToEntity(updateUserRequest);
         try {

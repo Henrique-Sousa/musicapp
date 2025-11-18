@@ -8,6 +8,7 @@ import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.henriquesousa.musicapp.entity.User;
@@ -34,6 +35,10 @@ public class UserService {
             return maybeUser.get();
         } 
         throw new UserNotFoundException();
+    }
+
+    public List<User> findAllWithPagination(String userName, String name, Pageable page) {
+        return userRepository.findAllWithPagination(userName, name, page); 
     }
 
     public void create(User newUser) throws UserNotCreatedException {

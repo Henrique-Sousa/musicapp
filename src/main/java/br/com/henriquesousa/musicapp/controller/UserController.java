@@ -8,6 +8,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -53,9 +55,13 @@ public class UserController {
     @GetMapping
     @Operation(summary = "list users", description = "list all users")
     @ApiResponse(responseCode = "200", description = "users successfully retrieved")
-    public ResponseEntity<List<ExistingUserDTO>> list() {
+    public ResponseEntity<List<ExistingUserDTO>> list(
+            @RequestParam(defaultValue = "") String userName,
+            @RequestParam(defaultValue = "") String name,
+            @RequestParam(defaultValue = "1") int pageNumber
+        ) {
         // TODO: fazer try/catch pro caso de o banco de dados nao responder?
-        List<User> users = userService.list(); 
+        List<User> users = userService.findAllWithPagination(userName, name, PageRequest.of(pageNumber - 1, 2)); 
         List<ExistingUserDTO> userResponses = new ArrayList<>();
         for (var user : users) {
             ExistingUserDTO userResponse = FactoryDTO.entityToDTO(user);

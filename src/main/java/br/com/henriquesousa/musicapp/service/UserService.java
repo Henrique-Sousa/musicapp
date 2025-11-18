@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import br.com.henriquesousa.musicapp.service.exception.UserNotFoundException;
 
 @Service
 public class UserService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserService.class);
 
     @Autowired
     private UserRepository userRepository = null;
@@ -33,18 +37,13 @@ public class UserService {
 
     public void create(User newUser) throws UserNotCreatedException {
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
-            // TODO: refatorar - testar primeiro se ja NAO existe o usuario
-            // AND se o json NAO tem os fields corretos
-            // e caso algum desses de fato falhe, retornar .empty
-            // depois, fora do if, salvar e retornar usuario
-            
             // TODO: testar se tem name
-            
             // TODO: colocar esse teste no controller com @Valid
             if (newUser.getUserName() != null) {
                 newUser.setUuid(UUID.randomUUID());
                 newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
                 userRepository.saveAndFlush(newUser);
+                LOGGER.info("new user created with UUID: " + newUser.getUuid());
                 return;
             }
             // TODO: no momento, se o json nao tiver os campos corretos,

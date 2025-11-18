@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +44,8 @@ import jakarta.validation.Valid;
 @RequestMapping("/users")
 @Tag(name = "user", description = "services to manage users")
 public class UserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -94,9 +98,9 @@ public class UserController {
             userService.create(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (UserNotCreatedException e) {
-            // TODO: devo logar isso?
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
+            LOGGER.error("unexpected error while creating a new user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }

@@ -29,6 +29,7 @@ public class UserService {
 
     public User getByUuid(UUID uuid) throws UserNotFoundException {
         Optional<User> maybeUser = userRepository.findByUuid(uuid);
+        // TODO: inverter? if not present throw, "else" return
         if (maybeUser.isPresent()) {
             return maybeUser.get();
         } 

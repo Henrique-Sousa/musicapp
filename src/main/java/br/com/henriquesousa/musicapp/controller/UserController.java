@@ -102,8 +102,10 @@ public class UserController {
         User user = FactoryDTO.newDtoToEntity(newUserRequest);
         try {
             userService.create(user);
+            LOGGER.debug("user created");
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (UserNotCreatedException e) {
+            LOGGER.debug("user not created exception");
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
             LOGGER.error("unexpected error while creating a new user", e);

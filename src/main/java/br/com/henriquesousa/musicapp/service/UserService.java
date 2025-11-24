@@ -43,6 +43,7 @@ public class UserService {
 
     public void create(User newUser) throws UserNotCreatedException {
         if (userRepository.findByUserName(newUser.getUserName()).isEmpty()) {
+            LOGGER.debug("user " + newUser.getUserName() + " is not on database");
             // TODO: testar se tem name
             // TODO: colocar esse teste no controller com @Valid
             if (newUser.getUserName() != null) {
@@ -55,8 +56,10 @@ public class UserService {
             // TODO: no momento, se o json nao tiver os campos corretos,
             // retorna empty o que faz com que o controller retorne CONFLICT
             // mas sera que eh o melhor status code pra isso?
+            LOGGER.debug("user field is empty");
             throw new UserNotCreatedException();
         }
+        LOGGER.debug("user " + newUser.getUserName() + "already exists");
         throw new UserNotCreatedException();
     }
 

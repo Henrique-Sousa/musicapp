@@ -14,6 +14,7 @@ public class NewUserDTO {
     @Schema(description = "the name of the user", example = "John Smith")
     @NotBlank(message = "name-required")
     private String name;
+
     @Schema(description = "the username of the user", example = "john_smith")
     @NotBlank(message = "username-required")
     private String userName;

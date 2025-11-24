@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class ErrorDTO {
     @Schema(description = "the code of the error")
     String code;
+
     @Schema(description = "a boolean indicating error")
     boolean error = true;
 }

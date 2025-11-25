@@ -120,13 +120,13 @@ public class UserController {
                 """)
             )
         ),
-        // @ApiResponse(
-        //     responseCode = "400", description = "fields missing",
-        //     content = @Content(examples = @ExampleObject(name = "error", value = """
-        //             { "userName": "username-required", "error": true }
-        //         """)
-        //     )
-        // ),
+        @ApiResponse(
+            responseCode = "400", description = "fields missing",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "name": "name-required", "error": true }
+                """)
+            )
+        ),
         @ApiResponse(
             responseCode = "404", description = "user not found",
             content = @Content(examples = @ExampleObject(name = "error", value = """
@@ -159,6 +159,24 @@ public class UserController {
     }
 
     @DeleteMapping("/{userName}")
+    @Operation(summary = "delete a user", description = "delete a user by id")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", description = "user successfully deleted",
+            content = @Content(examples = @ExampleObject(name = "success", value = """
+                    { "success": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404", description = "user not found",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "code": "user-not-found", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(responseCode = "500", description = "internal server error"),
+    })
     public ResponseEntity<?> delete(@PathVariable("userName") String userName) {
         User user = new User();
         user.setUserName(userName);

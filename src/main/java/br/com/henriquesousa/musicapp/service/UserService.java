@@ -50,7 +50,6 @@ public class UserService {
                 newUser.setUuid(UUID.randomUUID());
                 newUser.setCreatedAt(new Timestamp(System.currentTimeMillis()));
                 userRepository.saveAndFlush(newUser);
-                LOGGER.info("new user created with UUID: " + newUser.getUuid());
                 return;
             }
             // TODO: no momento, se o json nao tiver os campos corretos,

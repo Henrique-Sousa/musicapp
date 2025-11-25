@@ -96,10 +96,12 @@ public class UserController {
         User user = FactoryDTO.newDtoToEntity(newUserRequest);
         try {
             userService.create(user);
-            LOGGER.debug("user created");
+            LOGGER.info("user created" + 
+                    " with username: " + user.getUserName() +
+                    " and UUID: " + user.getUuid());
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (UserNotCreatedException e) {
-            LOGGER.debug("user not created exception");
+            LOGGER.debug("user not created exception", e);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
             LOGGER.error("unexpected error while creating a new user", e);
@@ -135,14 +137,23 @@ public class UserController {
         @ApiResponse(responseCode = "500", description = "internal server error"),
     })
     // TODO: trocar pra existingUserDTO e fazer o update por uuid
-    public ResponseEntity<?> update(@RequestBody NewUserDTO updateUserRequest) {
+    public ResponseEntity<?> update(@RequestBody @Valid NewUserDTO updateUserRequest) {
         User user = FactoryDTO.newDtoToEntity(updateUserRequest);
         try {
             userService.update(user);
+            LOGGER.debug("user " + 
+                    " with username: " + user.getUserName() +
+                    " and UUID: " + user.getUuid() +
+                    " updated");
             return ResponseEntity.ok(new SuccessDTO(true));
         } catch (UserNotFoundException e) {
+            LOGGER.debug("user " + 
+                    " with username: " + user.getUserName() +
+                    " and UUID: " + user.getUuid() +
+                    " not updated - user not found exception", e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
+            LOGGER.error("unexpected error while updating a new user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }

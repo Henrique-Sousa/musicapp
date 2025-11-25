@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import br.com.henriquesousa.musicapp.entity.Card;
 
 public interface CardRepository extends JpaRepository<Card, Long> {
-    @Query(value = "SELECT * FROM card WHERE uuid = :uuid", nativeQuery = true)
+    @Query(value = "SELECT c from Card c WHERE c.uuid = :uuid")
     Optional<Card> findByUuid(UUID uuid);
 }

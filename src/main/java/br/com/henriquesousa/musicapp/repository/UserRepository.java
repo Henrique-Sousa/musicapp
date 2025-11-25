@@ -13,10 +13,10 @@ import br.com.henriquesousa.musicapp.entity.User;
 import jakarta.transaction.Transactional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    @Query(value = "SELECT * FROM \"user\" WHERE user_name = :userName", nativeQuery = true)
+    @Query(value = "SELECT u from User u WHERE u.userName = :userName")
     Optional<User> findByUserName(String userName);
 
-    @Query(value = "SELECT * FROM \"user\" WHERE uuid = :uuid", nativeQuery = true)
+    @Query(value = "SELECT u from User u WHERE u.uuid = :uuid")
     Optional<User> findByUuid(UUID uuid);
 
     @Query(value = "SELECT u from User u WHERE u.userName like %:userName% AND u.name like %:name%")
@@ -24,6 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     @Transactional
     @Modifying
-    @Query(value = "DELETE FROM \"user\" WHERE user_name = :userName", nativeQuery = true)
+    @Query(value = "DELETE from User u WHERE u.userName = :userName")
     void deleteByUserName(String userName);
 }

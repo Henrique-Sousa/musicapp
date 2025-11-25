@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import br.com.henriquesousa.musicapp.entity.UserCard;
 
 public interface UserCardRepository extends JpaRepository<UserCard, Long> {
-    @Query(value = "SELECT * FROM user_card WHERE uuid = :uuid", nativeQuery = true)
+    @Query(value = "SELECT uc from UserCard uc WHERE uc.uuid = :uuid")
     Optional<UserCard> findByUuid(UUID uuid);
 }

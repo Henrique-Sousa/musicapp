@@ -21,5 +21,4 @@ public class ExistingCardDTO extends NewCardDTO {
         super(question, answer);
         this.uuid = uuid;
     }
-
 }

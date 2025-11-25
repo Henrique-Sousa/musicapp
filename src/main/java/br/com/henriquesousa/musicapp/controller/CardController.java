@@ -27,6 +27,7 @@ import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
 import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/cards")
@@ -49,7 +50,7 @@ public class CardController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody NewCardDTO newCardRequest) {
+    public ResponseEntity<?> create(@RequestBody @Valid NewCardDTO newCardRequest) {
         Card card = FactoryDTO.newDtoToEntity(newCardRequest);
         try {
             cardService.create(card);
@@ -62,7 +63,7 @@ public class CardController {
     }
 
     @PutMapping
-    public ResponseEntity<?> update(@RequestBody ExistingCardDTO updateCardRequest) {
+    public ResponseEntity<?> update(@RequestBody @Valid ExistingCardDTO updateCardRequest) {
         Card card = FactoryDTO.existingDtoToEntity(updateCardRequest);
         try {
             cardService.update(card);

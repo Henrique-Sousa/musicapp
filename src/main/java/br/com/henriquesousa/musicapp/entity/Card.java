@@ -28,13 +28,13 @@ public class Card {
     @Column(nullable = false, unique = true)
     private UUID uuid;
 
-    @Column
+    @Column(nullable = false)
     private String question;
 
-    @Column
+    @Column(nullable = false)
     private String answer;
 
-    @Column
+    @Column(nullable = false, updatable = false)
     private Timestamp createdAt;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")

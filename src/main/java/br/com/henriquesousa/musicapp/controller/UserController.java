@@ -1,9 +1,7 @@
 package br.com.henriquesousa.musicapp.controller;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.henriquesousa.musicapp.dto.ErrorDTO;
@@ -159,25 +153,20 @@ public class UserController {
         user.setUserName(userName);
         try {
             userService.delete(user);
+            LOGGER.info("user " + 
+                    " with username: " + user.getUserName() +
+                    " and UUID: " + user.getUuid() +
+                    " deleted");
             return ResponseEntity.ok(new SuccessDTO(true));
         } catch (UserNotFoundException e) {
+            LOGGER.debug("user " + 
+                    " with username: " + user.getUserName() +
+                    " and UUID: " + user.getUuid() +
+                    " not deleted - user not found exception", e);
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
+            LOGGER.error("unexpected error while deleting a new user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
-    }
-
-    // TODO: colocar em utils/
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        Map<String, Object> errors = new HashMap<>();
-        ex.getBindingResult().getAllErrors().forEach(e -> {
-            String fieldName = ((FieldError)e).getField();
-            String errorMessage = e.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
-        errors.put("error", true);
-        return errors;
     }
 }

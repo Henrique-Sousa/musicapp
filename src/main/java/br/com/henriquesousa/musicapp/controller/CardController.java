@@ -54,10 +54,12 @@ public class CardController {
         Card card = FactoryDTO.newDtoToEntity(newCardRequest);
         try {
             cardService.create(card);
+            LOGGER.info("card created with UUID: " + card.getUuid());
             return ResponseEntity.status(HttpStatus.CREATED).body(new SuccessDTO(true));
         } catch (CardNotCreatedException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
+            LOGGER.error("unexpected error while creating a new user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }
@@ -71,6 +73,7 @@ public class CardController {
         } catch (CardNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
+            LOGGER.error("unexpected error while creating a new user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }
@@ -81,10 +84,12 @@ public class CardController {
         card.setUuid(uuid);
         try {
             cardService.delete(card);
+            LOGGER.info("card with UUID: " + card.getUuid() + " deleted");
             return ResponseEntity.ok(new SuccessDTO(true));
         } catch (CardNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(FactoryDTO.exceptionToDTO(e));
         } catch (Throwable e) {
+            LOGGER.error("unexpected error while creating a new user", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ErrorDTO("error", true));
         }
     }

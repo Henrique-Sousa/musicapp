@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,11 +54,21 @@ public class UserController {
             @RequestParam(defaultValue = "") String userName,
             @RequestParam(defaultValue = "") String name,
             @RequestParam(defaultValue = "1") int pageNumber,
-            @RequestParam(defaultValue = "2") int pageSize
+            @RequestParam(defaultValue = "2") int pageSize,
+            @RequestParam(defaultValue = "userName") String sortBy,
+            @RequestParam(defaultValue = "asc") String sortDirection
         ) {
+
+        if (pageSize > 50) {
+            pageSize = 50;
+        }
+        
         // TODO: fazer try/catch pro caso de o banco de dados nao responder?
-        if (pageSize > 50) { pageSize = 50; }
-        List<User> users = userService.findAllWithPagination(userName, name, PageRequest.of(pageNumber - 1, pageSize)); 
+        List<User> users = userService.findAllWithPagination(
+                userName, 
+                name, 
+                PageRequest.of(pageNumber - 1, pageSize).withSort(Sort.Direction.fromString(sortDirection), sortBy)
+        ); 
         List<ExistingUserDTO> userResponses = new ArrayList<>();
         for (var user : users) {
             ExistingUserDTO userResponse = FactoryDTO.entityToDTO(user);

@@ -52,10 +52,12 @@ public class UserController {
     public ResponseEntity<List<ExistingUserDTO>> list(
             @RequestParam(defaultValue = "") String userName,
             @RequestParam(defaultValue = "") String name,
-            @RequestParam(defaultValue = "1") int pageNumber
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "2") int pageSize
         ) {
         // TODO: fazer try/catch pro caso de o banco de dados nao responder?
-        List<User> users = userService.findAllWithPagination(userName, name, PageRequest.of(pageNumber - 1, 2)); 
+        if (pageSize > 50) { pageSize = 50; }
+        List<User> users = userService.findAllWithPagination(userName, name, PageRequest.of(pageNumber - 1, pageSize)); 
         List<ExistingUserDTO> userResponses = new ArrayList<>();
         for (var user : users) {
             ExistingUserDTO userResponse = FactoryDTO.entityToDTO(user);

@@ -27,10 +27,17 @@ import br.com.henriquesousa.musicapp.entity.Card;
 import br.com.henriquesousa.musicapp.service.CardService;
 import br.com.henriquesousa.musicapp.service.exception.CardNotCreatedException;
 import br.com.henriquesousa.musicapp.service.exception.CardNotFoundException;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/cards")
+@Tag(name = "card", description = "services to manage cards")
 public class CardController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CardController.class);
@@ -39,6 +46,8 @@ public class CardController {
     private CardService cardService;
 
     @GetMapping
+    @Operation(summary = "list cards", description = "list all cards")
+    @ApiResponse(responseCode = "200", description = "cards successfully retrieved")
     public ResponseEntity<List<ExistingCardDTO>> list() {
         List<Card> cards = cardService.list(); 
         List<ExistingCardDTO> cardResponses = new ArrayList<>();
@@ -50,6 +59,31 @@ public class CardController {
     }
 
     @PostMapping
+    @Operation(summary = "create a new card", description = "creates a new card with a question and an answer")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "201", description = "card successfully created",
+            content = @Content(examples = @ExampleObject(name = "success", value = """
+                    { "success": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400", description = "fields missing",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "question": "question-required", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "409", description = "card not created",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "code": "card-not-created", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(responseCode = "500", description = "internal server error"),
+    })
     public ResponseEntity<?> create(@RequestBody @Valid NewCardDTO newCardRequest) {
         Card card = FactoryDTO.newDtoToEntity(newCardRequest);
         try {
@@ -65,6 +99,31 @@ public class CardController {
     }
 
     @PutMapping
+    @Operation(summary = "update a card", description = "update a card with new values for it's fields")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", description = "card successfully updated",
+            content = @Content(examples = @ExampleObject(name = "success", value = """
+                    { "success": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "400", description = "fields missing",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "question": "question-required", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404", description = "card not found",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "code": "card-not-found", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(responseCode = "500", description = "internal server error"),
+    })
     public ResponseEntity<?> update(@RequestBody @Valid ExistingCardDTO updateCardRequest) {
         Card card = FactoryDTO.existingDtoToEntity(updateCardRequest);
         try {
@@ -79,6 +138,24 @@ public class CardController {
     }
 
     @DeleteMapping("/{uuid}")
+    @Operation(summary = "delete a card", description = "delete a card by id")
+    @ApiResponses(value = {
+        @ApiResponse(
+            responseCode = "200", description = "card successfully deleted",
+            content = @Content(examples = @ExampleObject(name = "success", value = """
+                    { "success": true }
+                """)
+            )
+        ),
+        @ApiResponse(
+            responseCode = "404", description = "card not found",
+            content = @Content(examples = @ExampleObject(name = "error", value = """
+                    { "code": "card-not-found", "error": true }
+                """)
+            )
+        ),
+        @ApiResponse(responseCode = "500", description = "internal server error"),
+    })
     public ResponseEntity<?> delete(@PathVariable("uuid") UUID uuid) {
         Card card = new Card();
         card.setUuid(uuid);

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data // cria getters e setters
-@Schema(title = "NewUser", name="New", description = "new user dto")
+@Schema(title = "NewUser", name="NewUser", description = "new user dto")
 public class NewUserDTO {
     @Schema(description = "the name of the user", example = "John Smith")
     @NotBlank(message = "name-required")

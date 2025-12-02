@@ -56,11 +56,8 @@ public class UserController {
         Optional<User> maybeUser = userService.findByUserName(userName);
         if (maybeUser.isPresent()) {
             User user = maybeUser.get();
-            return ResponseEntity.ok(new ExistingUserDTO(
-                        user.getUuid(),
-                        user.getName(),
-                        user.getUserName()
-                        ));
+            ExistingUserDTO userResponse = FactoryDTO.entityToDTO(user);
+            return ResponseEntity.ok(userResponse);
         }
         return ResponseEntity.notFound().build();
     }

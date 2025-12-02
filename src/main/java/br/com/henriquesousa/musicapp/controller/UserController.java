@@ -50,7 +50,7 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("/me")
-    public ResponseEntity<?> getUserDetails() {
+    public ResponseEntity<?> getMyUser() {
         String userName = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         Optional<User> maybeUser = userService.findByUserName(userName);

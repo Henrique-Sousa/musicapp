@@ -49,7 +49,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/info")
+    @GetMapping("/me")
     public ResponseEntity<?> getUserDetails() {
         String userName = (String)SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 

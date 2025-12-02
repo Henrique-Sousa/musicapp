@@ -41,7 +41,7 @@ public class UserService {
         return userRepository.findByUserName(username);
     }
 
-    public List<User> findAllWithPagination(String userName, String name, Pageable page) {
+    public List<User> getAllWithPagination(String userName, String name, Pageable page) {
         return userRepository.findAllWithPagination(userName, name, page); 
     }
 

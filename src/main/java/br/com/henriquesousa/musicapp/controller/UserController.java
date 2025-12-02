@@ -79,7 +79,7 @@ public class UserController {
         }
         
         // TODO: fazer try/catch pro caso de o banco de dados nao responder?
-        List<User> users = userService.findAllWithPagination(
+        List<User> users = userService.getAllWithPagination(
                 userName, 
                 name, 
                 PageRequest.of(pageNumber - 1, pageSize).withSort(Sort.Direction.fromString(sortDirection), sortBy)

@@ -34,6 +34,9 @@ public class User {
     @Column(name = "user_name", nullable = false, unique = true, updatable = false)
     private String userName;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column(nullable = false, updatable = false)
     private Timestamp createdAt;
 
@@ -85,6 +88,14 @@ public class User {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
     public Timestamp getCreatedAt() {
         return createdAt;

@@ -37,6 +37,10 @@ public class UserService {
         throw new UserNotFoundException();
     }
 
+    public Optional<User> findByUserName(String username) {
+        return userRepository.findByUserName(username);
+    }
+
     public List<User> findAllWithPagination(String userName, String name, Pageable page) {
         return userRepository.findAllWithPagination(userName, name, page); 
     }

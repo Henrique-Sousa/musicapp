@@ -40,17 +40,17 @@ public class JWTFilter extends OncePerRequestFilter {
                 try {
                     String username = jwtUtil.validateTokenAndRetrieveSubject(jwt);
                     UserDetails userDetails = userDetailService.loadUserByUsername(username);
-                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username,userDetails.getPassword(),userDetails.getAuthorities());
+                    UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, userDetails.getPassword(), userDetails.getAuthorities());
 
                     if (SecurityContextHolder.getContext().getAuthentication() == null) {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 } catch(JWTVerificationException exc) {
-                    response.sendError(HttpServletResponse.SC_BAD_REQUEST,"Invalid Token");
+                    response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Token");
                 }
             }
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }

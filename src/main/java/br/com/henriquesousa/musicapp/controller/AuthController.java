@@ -51,7 +51,7 @@ public class AuthController {
         try {
             userService.create(user);
             String token = jwtUtil.generateToken(user.getUserName());
-            return Collections.singletonMap("jwt-token",token);
+            return Collections.singletonMap("jwt-token", token);
         } catch (UserNotCreatedException e) {
             return new HashMap<>();
         }
@@ -59,13 +59,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public Map<String,Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
+    public Map<String, Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
         try {
             UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(userLoginDTO.getUserName(), userLoginDTO.getPassword());
             authenticationManager.authenticate(authInputToken);
 
             String token = jwtUtil.generateToken(userLoginDTO.getUserName());
-            return Collections.singletonMap("jwt-token",token);
+            return Collections.singletonMap("jwt-token", token);
         } catch(AuthenticationException authExc) {
             throw new RuntimeException("Invalid username/password.");
         }

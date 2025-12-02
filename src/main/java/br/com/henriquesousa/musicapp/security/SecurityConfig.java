@@ -43,7 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/cards/**").permitAll()
                         .requestMatchers("/user-cards/**").permitAll()
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/users/**").hasRole("USER")
                         .anyRequest().authenticated())
                 .userDetailsService(userDetailService)

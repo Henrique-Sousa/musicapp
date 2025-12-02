@@ -23,7 +23,7 @@ import br.com.henriquesousa.musicapp.service.exception.UserNotCreatedException;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     @Autowired

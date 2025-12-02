@@ -57,8 +57,9 @@ public class UserController {
         if (maybeUser.isPresent()) {
             User user = maybeUser.get();
             return ResponseEntity.ok(new ExistingUserDTO(
-                        user.getUuid(), user.getUserName(),
-                        user.getName()
+                        user.getUuid(),
+                        user.getName(),
+                        user.getUserName()
                         ));
         }
         return ResponseEntity.notFound().build();

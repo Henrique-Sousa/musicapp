@@ -37,12 +37,12 @@ public class SecurityConfig {
                 .httpBasic(httpBasic -> httpBasic.disable())
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/rest-api-docs/**").permitAll()
                         .requestMatchers("/openapi/**").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/cards/**").permitAll()
                         .requestMatchers("/user-cards/**").permitAll()
-                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/users/**").hasRole("USER")
                         .anyRequest().authenticated())

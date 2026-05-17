@@ -47,9 +47,8 @@ public class User {
     @Column(nullable = false, updatable = false)
     private Timestamp createdAt;
 
-    // new é para nunca ser null
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<UserCard> deck = new ArrayList<>();
+    private List<UserCard> deck = new ArrayList<>();   // new é para evitar manipular um null pointer 
 
     public User() {}
 

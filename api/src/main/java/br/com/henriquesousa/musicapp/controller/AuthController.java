@@ -55,6 +55,9 @@ public class AuthController {
         } catch (UserNotCreatedException e) {
             return new HashMap<>();
         }
+        // TODO: devo colocar isso aqui?
+        // String token = jwtUtil.generateToken(user.getUserName());
+        // return Collections.singletonMap("jwt-token", token);
 
     }
 
@@ -69,7 +72,8 @@ public class AuthController {
         } catch(AuthenticationException authExc) {
             throw new RuntimeException("Invalid username/password.");
         }
-
+        // TODO: devo colocar isso aqui?
+        // String token = jwtUtil.generateToken(userLoginDTO.getUserName());
+        // return Collections.singletonMap("jwt-token", token);
     }
-
 }

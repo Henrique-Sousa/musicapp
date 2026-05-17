@@ -21,6 +21,13 @@ import jakarta.persistence.Table;
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class User {
 
+    public String toString() {
+        return this.getId() + " "
+            + this.getUuid() + " "
+            + this.getName() + " "
+            + this.getUserName() + " ";
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

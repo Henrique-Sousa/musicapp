@@ -57,6 +57,7 @@ public class UserCardController {
         try {
             User user = new User();
             user.setUuid(newUserCardRequest.getUserUuid());
+            LOGGER.debug("user: " + user.toString());
             Card card = new Card(); 
             card.setUuid(newUserCardRequest.getCardUuid());
             UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());

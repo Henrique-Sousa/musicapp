@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data // cria getters e setters
-@EqualsAndHashCode(callSuper=false)
-@Schema(title = "ExistingUser", name="ExistingUser", description = "existing user dto")
+@EqualsAndHashCode(callSuper = false)
+@Schema(title = "ExistingUser", name = "ExistingUser", description = "existing user dto")
 public class ExistingUserDTO extends NewUserDTO {
     @Schema(description = "the UUID of the user", example = "3fa85f64-5717-4562-b3fc-2c963f66afa6")
     @NotNull(message = "uuid-required")

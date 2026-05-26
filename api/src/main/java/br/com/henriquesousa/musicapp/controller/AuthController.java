@@ -64,12 +64,13 @@ public class AuthController {
     @PostMapping("/login")
     public Map<String, Object> login(@Valid @RequestBody UserLoginDTO userLoginDTO) {
         try {
-            UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(userLoginDTO.getUserName(), userLoginDTO.getPassword());
+            UsernamePasswordAuthenticationToken authInputToken = new UsernamePasswordAuthenticationToken(
+                    userLoginDTO.getUserName(), userLoginDTO.getPassword());
             authenticationManager.authenticate(authInputToken);
 
             String token = jwtUtil.generateToken(userLoginDTO.getUserName());
             return Collections.singletonMap("jwt-token", token);
-        } catch(AuthenticationException authExc) {
+        } catch (AuthenticationException authExc) {
             throw new RuntimeException("Invalid username/password.");
         }
         // TODO: devo colocar isso aqui?

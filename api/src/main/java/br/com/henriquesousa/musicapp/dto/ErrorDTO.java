@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Schema(title = "Error", name="Error", description = "an error occurred")
+@Schema(title = "Error", name = "Error", description = "an error occurred")
 public class ErrorDTO {
     @Schema(description = "the code of the error")
     String code;

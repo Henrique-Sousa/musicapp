@@ -49,13 +49,13 @@ public class CardService {
     }
 
     public void update(Card updatedCard) throws CardNotFoundException {
-        // TODO: impedir de fazer alteracoes que tornam esse card igual a outro? 
+        // TODO: impedir de fazer alteracoes que tornam esse card igual a outro?
         Optional<Card> maybeCard = cardRepository.findByUuid(updatedCard.getUuid());
         if (maybeCard.isPresent()) {
             Card dbCard = maybeCard.get();
             dbCard.setQuestion(updatedCard.getQuestion());
             dbCard.setAnswer(updatedCard.getAnswer());
-            cardRepository.saveAndFlush(dbCard); 
+            cardRepository.saveAndFlush(dbCard);
             return;
         }
         throw new CardNotFoundException();

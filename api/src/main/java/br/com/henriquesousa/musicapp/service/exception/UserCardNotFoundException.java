@@ -1,7 +1,7 @@
 package br.com.henriquesousa.musicapp.service.exception;
 
 public class UserCardNotFoundException extends Exception {
-   public UserCardNotFoundException() {
+    public UserCardNotFoundException() {
         super("user-card-not-found");
-   }
+    }
 }

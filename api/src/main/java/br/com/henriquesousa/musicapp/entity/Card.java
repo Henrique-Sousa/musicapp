@@ -18,7 +18,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "card")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class Card {
 
     @Id
@@ -40,7 +40,8 @@ public class Card {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "card")
     private List<UserCard> deck = new ArrayList<>();
 
-    public Card() {}
+    public Card() {
+    }
 
     public Card(String question, String answer) {
         this.question = question;
@@ -56,7 +57,7 @@ public class Card {
     public Long getId() {
         return id;
     }
-    
+
     public void setId(Long id) {
         this.id = id;
     }

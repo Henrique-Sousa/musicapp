@@ -16,7 +16,8 @@ import br.com.henriquesousa.musicapp.repository.UserRepository;
 @Component
 public class MyUserDetailService implements UserDetailsService {
 
-    @Autowired private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -31,8 +32,6 @@ public class MyUserDetailService implements UserDetailsService {
                 username,
                 user.getPassword(),
                 Collections.singletonList(
-                        new SimpleGrantedAuthority("ROLE_USER")
-                )
-        );
+                        new SimpleGrantedAuthority("ROLE_USER")));
     }
 }

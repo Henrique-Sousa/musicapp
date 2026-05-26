@@ -10,8 +10,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data // cria getters e setters
-@EqualsAndHashCode(callSuper=false)
-@Schema(title = "ExistingCard", name="ExistingCard", description = "existing card dto")
+@EqualsAndHashCode(callSuper = false)
+@Schema(title = "ExistingCard", name = "ExistingCard", description = "existing card dto")
 public class ExistingCardDTO extends NewCardDTO {
     @Schema(description = "the UUID of the card", example = "dc45c20f-08fc-4170-8e9e-0605aa39fb41")
     @NotNull(message = "UUID-required")

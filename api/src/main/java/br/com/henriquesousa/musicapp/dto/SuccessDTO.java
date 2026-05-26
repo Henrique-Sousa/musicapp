@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Schema(title = "Success", name="Success", description = "tell the user the operation was done with success")
+@Schema(title = "Success", name = "Success", description = "tell the user the operation was done with success")
 public class SuccessDTO {
     @Schema(description = "a boolean indicating success", example = "true")
     private boolean success = true;

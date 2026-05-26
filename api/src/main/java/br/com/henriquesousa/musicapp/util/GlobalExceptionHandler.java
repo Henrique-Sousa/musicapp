@@ -17,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, Object> errors = new HashMap<>();
-        
+
         // Loop through all validation errors and map field name to error message
         ex.getBindingResult().getAllErrors().forEach(e -> {
             String fieldName = ((FieldError) e).getField();

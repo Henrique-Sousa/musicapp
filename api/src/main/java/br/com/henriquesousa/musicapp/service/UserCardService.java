@@ -37,7 +37,8 @@ public class UserCardService {
         return userCardRepository.findAll();
     }
 
-    public void create(UserCard newUserCard) throws UserCardNotCreatedException, UserNotFoundException, CardNotFoundException {
+    public void create(UserCard newUserCard)
+            throws UserCardNotCreatedException, UserNotFoundException, CardNotFoundException {
         // TODO: testar se já tem um usercard com esse usuario e esse card
         try {
             User user = userService.getByUuid(newUserCard.getUser().getUuid());
@@ -52,8 +53,9 @@ public class UserCardService {
         }
     }
 
-    public void update(UserCard updatedUserCard) throws UserCardNotFoundException, UserNotFoundException, CardNotFoundException {
-        // TODO: impedir de fazer alteracoes que tornam esse userCard igual a outro? 
+    public void update(UserCard updatedUserCard)
+            throws UserCardNotFoundException, UserNotFoundException, CardNotFoundException {
+        // TODO: impedir de fazer alteracoes que tornam esse userCard igual a outro?
         Optional<UserCard> maybeUserCard = userCardRepository.findByUuid(updatedUserCard.getUuid());
         if (maybeUserCard.isPresent()) {
             User user = userService.getByUuid(updatedUserCard.getUser().getUuid());
@@ -62,7 +64,7 @@ public class UserCardService {
             dbUserCard.setUser(user);
             dbUserCard.setCard(card);
             dbUserCard.setBox(updatedUserCard.getBox());
-            userCardRepository.saveAndFlush(dbUserCard); 
+            userCardRepository.saveAndFlush(dbUserCard);
             return;
         }
         throw new UserCardNotFoundException();

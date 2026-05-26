@@ -18,14 +18,14 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "\"user\"")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 public class User {
 
     public String toString() {
         return this.getId() + " "
-            + this.getUuid() + " "
-            + this.getName() + " "
-            + this.getUserName() + " ";
+                + this.getUuid() + " "
+                + this.getName() + " "
+                + this.getUserName() + " ";
     }
 
     @Id
@@ -48,9 +48,10 @@ public class User {
     private Timestamp createdAt;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
-    private List<UserCard> deck = new ArrayList<>();   // new é para evitar manipular um null pointer 
+    private List<UserCard> deck = new ArrayList<>(); // new é para evitar manipular um null pointer
 
-    public User() {}
+    public User() {
+    }
 
     public User(String name, String userName) {
         this.name = name;
@@ -95,13 +96,13 @@ public class User {
         this.userName = userName;
     }
 
-	public String getPassword() {
-		return password;
-	}
+    public String getPassword() {
+        return password;
+    }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Timestamp getCreatedAt() {
         return createdAt;

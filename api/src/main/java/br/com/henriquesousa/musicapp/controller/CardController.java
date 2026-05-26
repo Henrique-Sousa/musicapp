@@ -49,7 +49,7 @@ public class CardController {
     @Operation(summary = "list cards", description = "list all cards")
     @ApiResponse(responseCode = "200", description = "cards successfully retrieved")
     public ResponseEntity<List<ExistingCardDTO>> list() {
-        List<Card> cards = cardService.list(); 
+        List<Card> cards = cardService.list();
         List<ExistingCardDTO> cardResponses = new ArrayList<>();
         for (var card : cards) {
             ExistingCardDTO cardResponse = FactoryDTO.entityToDTO(card);

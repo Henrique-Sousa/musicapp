@@ -24,7 +24,7 @@ public class UserCard {
     private UUID uuid;
 
     @ManyToOne(fetch = FetchType.LAZY) // para quando eu puxar uma resposta ele nao puxar os cards
-    private User user;                 // ele cria automaticamente o field user_id no banco de dados
+    private User user; // ele cria automaticamente o field user_id no banco de dados
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Card card;
@@ -35,7 +35,8 @@ public class UserCard {
     @Column
     private Timestamp createdAt;
 
-    public UserCard() {}
+    public UserCard() {
+    }
 
     public UserCard(User user, Card card, int box) {
         this.user = user;
@@ -65,7 +66,7 @@ public class UserCard {
     public void setUuid(UUID uuid) {
         this.uuid = uuid;
     }
- 
+
     public User getUser() {
         return user;
     }

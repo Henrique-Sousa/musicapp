@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data // cria getters e setters
-@Schema(title = "UserLogin", name="UserLogin", description = "dto for logging the user in")
+@Schema(title = "UserLogin", name = "UserLogin", description = "dto for logging the user in")
 public class UserLoginDTO {
     @Schema(description = "the username of the user", example = "john_smith")
     @NotBlank(message = "username-required")
@@ -17,5 +17,5 @@ public class UserLoginDTO {
 
     @Schema(description = "the password for the user", example = "12345678")
     @NotBlank(message = "password-required")
-    private String password; 
+    private String password;
 }

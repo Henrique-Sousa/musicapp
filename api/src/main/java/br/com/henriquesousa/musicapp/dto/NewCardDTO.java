@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@Schema(title = "NewCard", name="NewCard", description = "new card dto")
+@Schema(title = "NewCard", name = "NewCard", description = "new card dto")
 public class NewCardDTO {
     @Schema(description = "the question on the front side of the card", example = "fifth of C")
     @NotBlank(message = "question-required")

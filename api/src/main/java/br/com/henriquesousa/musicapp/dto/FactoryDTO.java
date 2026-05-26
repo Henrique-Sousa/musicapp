@@ -8,47 +8,41 @@ public class FactoryDTO {
     public static User newDtoToEntity(NewUserDTO newUserDTO) {
         return new User(
                 newUserDTO.getName(),
-                newUserDTO.getUserName()
-                );
+                newUserDTO.getUserName());
     }
-    
+
     public static User existingDtoToEntity(ExistingUserDTO existingUserDTO) {
         return new User(
                 existingUserDTO.getUuid(),
                 existingUserDTO.getName(),
-                existingUserDTO.getUserName()
-                );
+                existingUserDTO.getUserName());
     }
 
     public static ExistingUserDTO entityToDTO(User user) {
         return new ExistingUserDTO(
                 user.getUuid(),
                 user.getName(),
-                user.getUserName()
-                );
+                user.getUserName());
     }
 
     public static Card newDtoToEntity(NewCardDTO newCardDTO) {
         return new Card(
                 newCardDTO.getQuestion(),
-                newCardDTO.getAnswer()
-                );
+                newCardDTO.getAnswer());
     }
 
     public static Card existingDtoToEntity(ExistingCardDTO existingCardDTO) {
         return new Card(
                 existingCardDTO.getUuid(),
                 existingCardDTO.getQuestion(),
-                existingCardDTO.getAnswer()
-                );
+                existingCardDTO.getAnswer());
     }
 
     public static ExistingCardDTO entityToDTO(Card card) {
         return new ExistingCardDTO(
                 card.getUuid(),
                 card.getQuestion(),
-                card.getAnswer()
-                );
+                card.getAnswer());
     }
 
     public static ExistingUserCardDTO entityToDTO(UserCard userCard) {
@@ -56,8 +50,7 @@ public class FactoryDTO {
                 userCard.getUuid(),
                 userCard.getUser().getUuid(),
                 userCard.getCard().getUuid(),
-                userCard.getBox()
-                );
+                userCard.getBox());
     }
 
     public static ErrorDTO exceptionToDTO(Exception exception) {

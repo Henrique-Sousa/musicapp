@@ -33,7 +33,7 @@ public class UserService {
         // TODO: inverter? if not present throw, "else" return
         if (maybeUser.isPresent()) {
             return maybeUser.get();
-        } 
+        }
         throw new UserNotFoundException();
     }
 
@@ -42,7 +42,7 @@ public class UserService {
     }
 
     public List<User> getAllWithPagination(String userName, String name, Pageable page) {
-        return userRepository.findAllWithPagination(userName, name, page); 
+        return userRepository.findAllWithPagination(userName, name, page);
     }
 
     public void create(User newUser) throws UserNotCreatedException {
@@ -74,7 +74,7 @@ public class UserService {
         if (maybeUser.isPresent()) {
             User dbUser = maybeUser.get();
             dbUser.setName(updatedUser.getName());
-            userRepository.saveAndFlush(dbUser); 
+            userRepository.saveAndFlush(dbUser);
             return;
         }
         throw new UserNotFoundException();
@@ -89,7 +89,8 @@ public class UserService {
             User dbUser = maybeUser.get();
             // TODO: ou um try aqui?
             // exception: erro do banco de dados?
-            // só se eu realmente quiser passar essas informacoes detalhadas de erro pro usuario
+            // só se eu realmente quiser passar essas informacoes detalhadas
+            // de erro pro usuario
             userRepository.delete(dbUser);
             return;
         }

@@ -58,7 +58,7 @@ public class UserCardController {
             User user = new User();
             user.setUuid(newUserCardRequest.getUserUuid());
             LOGGER.debug("user: " + user.toString());
-            Card card = new Card(); 
+            Card card = new Card();
             card.setUuid(newUserCardRequest.getCardUuid());
             UserCard userCard = new UserCard(user, card, newUserCardRequest.getBox());
             userCardService.create(userCard);
@@ -77,9 +77,9 @@ public class UserCardController {
     @PutMapping
     public ResponseEntity<?> update(@RequestBody ExistingUserCardDTO updateUserCardRequest) {
         try {
-            User user = new User(); 
+            User user = new User();
             user.setUuid(updateUserCardRequest.getUserUuid());
-            Card card = new Card(); 
+            Card card = new Card();
             card.setUuid(updateUserCardRequest.getCardUuid());
             UUID uuid = updateUserCardRequest.getUuid();
             UserCard userCard = new UserCard(uuid, user, card, updateUserCardRequest.getBox());

@@ -4,8 +4,8 @@ import './App.css'
 
 function App() {
   return (
-    <Flex className="home" justify="center" align="center" style={{height: '100vh'}} vertical>
-      <Row gutter={16} style={{marginBottom: 16}} justify="center">
+    <Flex className="home" justify="center" align="center" style={{minHeight: '100vh'}} vertical>
+      <Row gutter={[16, 16]} style={{marginBottom: 16}} justify="center">
         <Col>
           <Card title="Theory">
             Image here
@@ -17,7 +17,7 @@ function App() {
           </Card>
         </Col>
       </Row>
-      <Row gutter={16} justify="center">
+      <Row gutter={[16, 16]} justify="center">
         <Col>
           <Card title="Score reading">
             Image here

@@ -1,5 +1,5 @@
 .home .ant-col {
-    width: 160px;
+    min-width: 160px;
 }
 
 .home .ant-card-body {

@@ -12,14 +12,14 @@ function App() {
           </Card>
         </Col>
         <Col>
-          <Card title="Ear training">
+          <Card title="Ear Training">
             Image here
           </Card>
         </Col>
       </Row>
       <Row gutter={[16, 16]} justify="center">
         <Col>
-          <Card title="Score reading">
+          <Card title="Score Reading">
             Image here
           </Card>
         </Col>

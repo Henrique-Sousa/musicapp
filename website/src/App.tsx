@@ -1,4 +1,8 @@
 import {Row, Col, Card, Flex} from 'antd';
+import { GiMusicalScore } from "react-icons/gi";
+import { PiSpeakerHighFill } from "react-icons/pi";
+import { TbPiano } from "react-icons/tb";
+import { LuNotebookPen } from "react-icons/lu";
 
 import './App.css'
 
@@ -8,24 +12,24 @@ function App() {
       <Row gutter={[16, 16]} style={{marginBottom: 16}} justify="center">
         <Col>
           <Card title="Theory">
-            Image here
+            <LuNotebookPen size="6rem"/>
           </Card>
         </Col>
         <Col>
           <Card title="Ear Training">
-            Image here
+            <PiSpeakerHighFill size="6rem" />
           </Card>
         </Col>
       </Row>
       <Row gutter={[16, 16]} justify="center">
         <Col>
           <Card title="Score Reading">
-            Image here
+            <GiMusicalScore size="6rem"/>
           </Card>
         </Col>
         <Col>
-          <Card title="Piano">
-            Image here
+          <Card title="Keyboard">
+            <TbPiano size="6rem" />
           </Card>
         </Col>
       </Row>

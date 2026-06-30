@@ -4,7 +4,7 @@ import { PiSpeakerHighFill } from "react-icons/pi";
 import { TbPiano } from "react-icons/tb";
 import { LuNotebookPen } from "react-icons/lu";
 
-import './App.css'
+import './App.less'
 
 function App() {
   return (
